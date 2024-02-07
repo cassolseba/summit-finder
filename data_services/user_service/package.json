@@ -20,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/cassolseba/summit-finder/issues"
   },
-  "homepage": "https://github.com/cassolseba/summit-finder#readme"
+  "homepage": "https://github.com/cassolseba/summit-finder",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.1.1"
+  }
 }
