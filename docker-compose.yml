@@ -1,0 +1,12 @@
+version: "3.0"
+
+services:
+  user_service:
+    build:
+      context: ./data_services/user_service
+    restart: always
+    # env_file: ./.env
+    ports:
+      - "80:8080"
+    stdin_open: true
+    tty: true
