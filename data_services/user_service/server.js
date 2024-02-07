@@ -2,17 +2,17 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+/* ---------- EXPRESS ---------- */
+const express = require("express");
+const server = express();
+server.use(express.json());
+
 /* ---------- CORS ---------- */
 const cors = require("cors");
 var corsOptions = {
     origin: "http://localhost:3000"
 };
 server.use(cors(corsOptions));
-
-/* ---------- EXPRESS ---------- */
-const express = require("express");
-const server = express();
-server.use(express.json());
 
 /* ---------- SET ROUTES ---------- */
 server.get('/', (req, res) => {
