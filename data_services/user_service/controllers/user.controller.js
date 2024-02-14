@@ -1,6 +1,5 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
-const {Types} = require("mongoose");
 
 // get all users
 const allUsers = (req, res) => {
