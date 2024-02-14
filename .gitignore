@@ -131,3 +131,4 @@ dist
 # intellij idea
 idea/
 .idea
+/data_services/user_service/package-lock.json
