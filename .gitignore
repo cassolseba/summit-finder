@@ -132,3 +132,4 @@ dist
 idea/
 .idea
 /data_services/user_service/package-lock.json
+venv
