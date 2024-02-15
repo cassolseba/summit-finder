@@ -29,7 +29,7 @@ const corsOptions = {
 server.use(cors(corsOptions));
 
 /* ---------- SET ROUTES ---------- */
-const routes = require("routes/user.routes.js");
+const routes = require("./routes/user.routes.js");
 server.use('/', routes);
 
 server.get('/', (req, res) => {
