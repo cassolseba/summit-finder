@@ -10,7 +10,7 @@ const allUsers = (req, res) => {
                 .status(200)
                 .send({
                     "status": "success",
-                    "message": "all users retrieved successfully",
+                    "message": "All users retrieved successfully",
                     "data": result
                 });
         })
@@ -26,7 +26,7 @@ const allUsers = (req, res) => {
 
 // get one user by id
 const findUser = (req, res) => {
-    const _id = req.params.id;
+    const _id = String(req.params.id);
 
     if (!_id) {
         return res
@@ -40,13 +40,13 @@ const findUser = (req, res) => {
     }
 
     User
-        .findOne(_id)
+        .findById(_id)
         .then((result) => {
             return res
                 .status(200)
                 .send({
                     "status": "success",
-                    "message": "user retrieved successfully",
+                    "message": "User retrieved successfully",
                     "data": result
                 });
         })
@@ -67,7 +67,7 @@ const newUser = (req, res) => {
     let lastName = String(req.body.lastName);
     let email = String(req.body.email);
     let password = String(req.body.password);
-    let role = String(req.body.password);
+    let admin = String(req.body.admin) === "true";
 
     bcrypt.hash(password, 10, function (error, hash) {
 
@@ -78,7 +78,7 @@ const newUser = (req, res) => {
                 lastName: lastName,
                 email: email,
                 password: hash,
-                role: role
+                admin: admin
             });
 
             user
@@ -88,7 +88,7 @@ const newUser = (req, res) => {
                         .status(201)
                         .send({
                             "status": "success",
-                            "message": "new user created",
+                            "message": "New user created",
                             "data": {
                                 "user": result
                             }
@@ -112,8 +112,9 @@ const newUser = (req, res) => {
     });
 }
 
+// todo fix update user
 const updateUser = (req, res) => {
-    const _id = req.params.id;
+    const _id = String(req.params.id);
 
     if (!_id) {
         return res
@@ -131,7 +132,7 @@ const updateUser = (req, res) => {
     let lastName = String(req.body.lastName);
     let email = String(req.body.email);
     let password = String(req.body.password);
-    let role = String(req.body.password);
+    let admin = String(req.body.admin) === "true";
 
     bcrypt.hash(password, 10, function (error, hash) {
 
@@ -142,17 +143,17 @@ const updateUser = (req, res) => {
                 lastName: lastName,
                 email: email,
                 password: hash,
-                role: role
+                admin: admin
             });
 
             User
-                .findByIdAndUpdate(_id, user)
+                .findByIdAndUpdate(_id, user, { useFindAndModify: false })
                 .then(result => {
                     res
                         .status(201)
                         .send({
                             "status": "success",
-                            "message": "new user created",
+                            "message": "New user created",
                             "data": {
                                 "user": result
                             }
@@ -192,13 +193,23 @@ const deleteUser = (req, res) => {
     }
 
     User
-        .deleteOne(_id)
+        .findByIdAndDelete(_id)
         .then((result) => {
+            if (!result) {
+                return res
+                    .status(404)
+                    .send({
+                        "status": "fail",
+                        "data": {
+                            "id": "User doesn't exist"
+                        }
+                    })
+            }
             return res
                 .status(200)
                 .send({
                     "status": "success",
-                    "message": "user deleted successfully",
+                    "message": "User deleted successfully",
                     "data": {
                         "user": result
                     }
@@ -223,7 +234,7 @@ const deleteAll = (req, res) => {
                 .status(200)
                 .send({
                     "status": "success",
-                    "message": "users deleted successfully",
+                    "message": "Users deleted successfully",
                     "data": result
                 });
         })
@@ -239,7 +250,7 @@ const deleteAll = (req, res) => {
 
 // validate user parameters
 const userValidation = (req, res, next) => {
-    if (!req.params.username) {
+    if (!req.body.username) {
         return res
             .status(400)
             .send({
@@ -249,7 +260,7 @@ const userValidation = (req, res, next) => {
                 }
             });
     }
-    if (!req.params.name) {
+    if (!req.body.name) {
         return res
             .status(400)
             .send({
@@ -259,7 +270,7 @@ const userValidation = (req, res, next) => {
                 }
             });
     }
-    if (!req.params.lastName) {
+    if (!req.body.lastName) {
         return res
             .status(400)
             .send({
@@ -269,7 +280,7 @@ const userValidation = (req, res, next) => {
                 }
             });
     }
-    if (!req.params.email) {
+    if (!req.body.email) {
         return res
             .status(400)
             .send({
@@ -279,23 +290,13 @@ const userValidation = (req, res, next) => {
                 }
             });
     }
-    if (!req.params.password) {
+    if (!req.body.password) {
         return res
             .status(400)
             .send({
                 "status": "fail",
                 "data": {
                     "password": "A password is required"
-                }
-            });
-    }
-    if (!req.params.role) {
-        return res
-            .status(400)
-            .send({
-                "status": "fail",
-                "data": {
-                    "role": "A role is required"
                 }
             });
     }
