@@ -1,4 +1,4 @@
-FROM node:18.12.0
+FROM node:18.12.0-alpine
 LABEL authors="cassolseba"
 
 WORKDIR /user_service
