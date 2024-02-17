@@ -75,5 +75,36 @@ services:
     stdin_open: true
     tty: true
 
+  wishlist_db:
+    image: mongo:latest
+    restart: always
+    env_file: ./.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$WISHLIST_DB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$WISHLIST_DB_PASSWORD
+    ports:
+      - "27019:27017"
+    volumes:
+      - wishlist:/data/db
+
+  wishlist_service:
+    depends_on:
+      - wishlist_db
+    build:
+      context: ./data_services/wishlist_service
+    restart: always
+    env_file: ./.env
+    environment:
+      - DB_HOST=$WISHLIST_DB_HOST
+      - DB_USER=$WISHLIST_DB_USER
+      - DB_PASSWORD=$WISHLIST_DB_PASSWORD
+      - DB_NAME=$WISHLIST_DB_NAME
+      - DB_PORT=$WISHLIST_DB_PORT
+    ports:
+      - "8086:8080"
+    stdin_open: true
+    tty: true
+
 volumes:
   user_db:
+  wishlist:
