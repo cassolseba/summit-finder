@@ -3,6 +3,7 @@ import requests
 
 app = Flask(__name__)
 
+
 @app.route("/", methods=["GET"])
 def check():
     response = {
@@ -12,9 +13,9 @@ def check():
     }
     return response, 200
 
+
 @app.route("/nominatim/<string:place>", methods=["GET"])
 def nominatim(place):
-
     if place is None:
         response = {
             "status": "fail",
