@@ -53,5 +53,15 @@ services:
     stdin_open: true
     tty: true
 
+  overpass_adapter:
+    build:
+      context: ./adapter_services/overpass_adapter
+    restart: always
+    env_file: ./.env
+    ports:
+      - "8084:5000"
+    stdin_open: true
+    tty: true
+
 volumes:
   user_db:
