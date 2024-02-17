@@ -16,6 +16,9 @@ const corsOptions = {
 server.use(cors(corsOptions));
 
 /* ---------- SET ROUTES ---------- */
+const routes = require("./routes/authentication.routes")
+server.use('/', routes);
+
 server.get('/', (req, res) => {
     res.status(200).send("Welcome to the user authentication service!");
 })
