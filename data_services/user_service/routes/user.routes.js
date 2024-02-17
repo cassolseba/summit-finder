@@ -4,7 +4,7 @@ const { allUsers, findUser, newUser, userValidation, updateUser, deleteUser, del
 
 // retrieve users
 router.get(`/`, allUsers);
-router.get('/:id', findUser);
+router.get('/:username', findUser);
 
 // create and update users
 router.post(`/new`, userValidation, newUser);

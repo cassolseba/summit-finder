@@ -26,21 +26,23 @@ const allUsers = (req, res) => {
 
 // get one user by id
 const findUser = (req, res) => {
-    const _id = String(req.params.id);
+    const username = String(req.params.username);
 
-    if (!_id) {
+    if (!username) {
         return res
             .status(400)
             .send({
                 "status": "fail",
                 "data": {
-                    "id": "An object id is required"
+                    "username": "A username is required"
                 }
             });
     }
 
+    let filter = { username: username };
+
     User
-        .findById(_id)
+        .findOne(filter)
         .then((result) => {
             return res
                 .status(200)
