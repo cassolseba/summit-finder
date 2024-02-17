@@ -26,22 +26,33 @@ const allUsers = (req, res) => {
 
 // get one user by id
 const findUser = (req, res) => {
-    const _id = String(req.params.id);
+    const username = String(req.params.username);
 
-    if (!_id) {
+    if (!username) {
         return res
             .status(400)
             .send({
                 "status": "fail",
                 "data": {
-                    "id": "An object id is required"
+                    "username": "A username is required"
                 }
             });
     }
 
+    let filter = { username: username };
+
     User
-        .findById(_id)
+        .findOne(filter)
         .then((result) => {
+            if (!result) {
+                return res
+                    .status(404)
+                    .send({
+                        "status": "error",
+                        "error": "Cannot find user"
+                    });
+            }
+
             return res
                 .status(200)
                 .send({
@@ -61,7 +72,7 @@ const findUser = (req, res) => {
 }
 
 // create a new user
-const newUser = (req, res) => {
+const newUser = async (req, res) => {
     let username = String(req.body.username);
     let name = String(req.body.name);
     let lastName = String(req.body.lastName);
@@ -69,47 +80,86 @@ const newUser = (req, res) => {
     let password = String(req.body.password);
     let admin = String(req.body.admin) === "true";
 
-    bcrypt.hash(password, 10, function (error, hash) {
+    const filter = { username: username };
 
-        if (hash) {
-            const user = new User({
-                username: username,
-                name: name,
-                lastName: lastName,
-                email: email,
-                password: hash,
-                admin: admin
+    let usernameAvailable = false;
+
+    await User
+        .findOne(filter)
+        .then(result => {
+            if (!result){
+                usernameAvailable = true;
+            } else {
+                return res
+                    .status(400)
+                    .send({
+                        "status": "fail",
+                        "data": {
+                            "username": "Username already in use"
+                        }
+                    });
+            }
+        }).catch((error) => {
+        return res
+            .status(500)
+            .send({
+                "status": "error",
+                "error": "Internal error" || error
             });
+    });
 
-            user
-                .save()
-                .then(result => {
-                    res
-                        .status(201)
+    if (usernameAvailable) {
+        bcrypt.hash(password, 10, function (error, hash) {
+
+            if (hash) {
+                const user = new User({
+                    username: username,
+                    name: name,
+                    lastName: lastName,
+                    email: email,
+                    password: hash,
+                    admin: admin
+                });
+
+                user
+                    .save()
+                    .then(result => {
+                        return res
+                            .status(201)
+                            .send({
+                                "status": "success",
+                                "message": "New user created",
+                                "data": {
+                                    "user": result
+                                }
+                            });
+                    }).catch(error => {
+                    return res
+                        .status(500)
                         .send({
-                            "status": "success",
-                            "message": "New user created",
-                            "data": {
-                                "user": result
-                            }
+                            "status": "error",
+                            "error": error
                         });
-                }).catch(error => {
-                res
+                })
+            } else {
+                return res
                     .status(500)
                     .send({
                         "status": "error",
                         "error": error
-                    });
-            })
-        } else {
-            res
-                .status(500)
-                .send({
-                    "status": "error",
-                    "error": error
-                })
-        }
-    });
+                    })
+            }
+        });
+    } else {
+        return res
+            .status(400)
+            .send({
+                "status": "fail",
+                "data": {
+                    "username": "Username already in use"
+                }
+            });
+    }
 }
 
 // todo fix update user
@@ -149,7 +199,7 @@ const updateUser = (req, res) => {
             User
                 .findByIdAndUpdate(_id, user, { useFindAndModify: false })
                 .then(result => {
-                    res
+                    return res
                         .status(201)
                         .send({
                             "status": "success",
@@ -159,15 +209,15 @@ const updateUser = (req, res) => {
                             }
                         });
                 }).catch(error => {
-                res
-                    .status(500)
-                    .send({
-                        "status": "error",
-                        "error": error
-                    });
+                    return res
+                        .status(500)
+                        .send({
+                            "status": "error",
+                            "error": error
+                        });
             })
         } else {
-            res
+            return res
                 .status(500)
                 .send({
                     "status": "error",
