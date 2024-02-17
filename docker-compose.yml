@@ -63,5 +63,17 @@ services:
     stdin_open: true
     tty: true
 
+  elevation_adapter:
+    build:
+      context: ./adapter_services/elevation_adapter
+    restart: always
+    env_file: ./.env
+    environment:
+      - GOOGLE_ELEVATION_API_KEY=$GOOGLE_ELEVATION_API_KEY
+    ports:
+      - "8085:5000"
+    stdin_open: true
+    tty: true
+
 volumes:
   user_db:
