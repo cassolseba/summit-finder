@@ -105,6 +105,18 @@ services:
     stdin_open: true
     tty: true
 
+  authentication_service:
+    build:
+      context: ./process_centric_services/authentication_service
+    restart: always
+    env_file: ./.env
+    environment:
+      - SECRET_KEY=$JWT_SECRET_KEY
+    ports:
+      - "8087:8080"
+    stdin_open: true
+    tty: true
+
 volumes:
   user_db:
   wishlist:
