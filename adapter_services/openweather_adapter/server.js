@@ -16,8 +16,11 @@ const corsOptions = {
 server.use(cors(corsOptions));
 
 /* ---------- SET ROUTES ---------- */
+const routes = require("./routes/weather.routes");
+server.use('/', routes);
+
 server.get('/', (req, res) => {
-    res.status(200).send("Welcome to the user data service!");
+    res.status(200).send("Welcome to the openweather adapter!");
 })
 
 /* ---------- RUN SERVER ---------- */
