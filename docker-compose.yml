@@ -101,7 +101,7 @@ services:
       - DB_NAME=$WISHLIST_DB_NAME
       - DB_PORT=$WISHLIST_DB_PORT
     ports:
-      - "80:8080"
+      - "8086:8080"
     stdin_open: true
     tty: true
 
