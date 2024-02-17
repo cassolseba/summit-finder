@@ -25,10 +25,8 @@ def nominatim(place):
         }
         return response, 400
 
-    query = f"q={place}"
-    format = "format=json"
-
-    api_url = f"https://nominatim.openstreetmap.org/search?{query}&{format}"
+    response_format = "json"
+    api_url = f"https://nominatim.openstreetmap.org/search?q={place}&format={response_format}"
 
     try:
         result = requests.get(api_url)
