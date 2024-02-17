@@ -89,7 +89,7 @@ def peaks():
 
     try:
         lon = float(lon)
-        if lat < -180 or lat > 180:
+        if lon < -180 or lon > 180:
             response = {
                 "status": "fail",
                 "data": {
@@ -290,7 +290,7 @@ def huts():
         response = {
             "status": "fail",
             "data": {
-                "peaks": "It was not possible to find huts around the specified area"
+                "huts": "It was not possible to find huts around the specified area"
             }
         }
         return response, 400
@@ -299,7 +299,7 @@ def huts():
         response = {
             "status": "fail",
             "data": {
-                "peaks": "It was not possible to find huts around the specified area"
+                "huts": "It was not possible to find huts around the specified area"
             }
         }
         return response, 400
@@ -319,7 +319,7 @@ def huts():
             "status": "success",
             "message": "Huts found successfully",
             "data": {
-                "peaks": huts_list
+                "huts": huts_list
             }
         }
         return response, 200
