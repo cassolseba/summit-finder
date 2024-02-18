@@ -1,5 +1,4 @@
 const axios = require("axios");
-const {response} = require("express");
 
 const tour = async (req, res) => {
     // parameters
