@@ -1,4 +1,4 @@
-const Wish = require("../models/wish.model")
+const Wish = require("../models/wish.model");
 
 const newWish = (req, res) => {
     let originLat = req.body.originLat;
@@ -44,6 +44,231 @@ const newWish = (req, res) => {
                     "error": error
                 });
         });
+}
+
+// const validateToken = (req, res, next) => {
+//     let token = req.headers['authorization'];
+//
+//     const secret = process.env.JWT_SECRET;
+//
+//     if (!token) {
+//         return res
+//             .status(401)
+//             .send({
+//                 "status": "fail",
+//                 "data": {
+//                     "authorization": "Missing authorization token" // todo fix this message
+//                 }
+//             });
+//     }
+//
+//     jwt.verify(token, secret, function (error, decoded) {
+//         if (error) {
+//             return res
+//                 .status(401)
+//                 .send({
+//                     "status": "fail",
+//                     "data": {
+//                         "authorization": "Invalid token"
+//                     }
+//                 });
+//         } else {
+//             console.log("Payload: " + decoded);
+//         }
+//     });
+//
+//     next();
+// }
+
+const wishlist = (req, res) => {
+    const userId = String(req.params.userId);
+
+    if(!req.params.userId) {
+        return res
+            .status(400)
+            .send({
+                "status": "fail",
+                "data": {
+                    "userId": "A userId is required"
+                }
+            });
+    }
+
+    let filter = { userId: userId };
+
+    Wish
+        .find(filter)
+        .then((result) => {
+            if (!result) {
+                return res
+                    .status(404)
+                    .send({
+                        "status": "error",
+                        "error": "Cannot retrieve the wishlist of this user"
+                    });
+            }
+            
+            return res
+                .status(200)
+                .send({
+                    "status": "success",
+                    "message": "Wishlist retrieved successfully",
+                    "data": result
+                });
+        }).catch((error) => {
+            return res
+                .status(500)
+                .send({
+                    "status": "error",
+                    "error": error
+                });
+        });
+}
+
+const allWishlists = (req, res) => {
+    Wish
+        .find()
+        .then((result) => {
+            if(!result) {
+                return res
+                    .status(404)
+                    .send({
+                        "status": "error",
+                        "error": "Cannot find any wishlist"
+                    });
+            }
+
+            return res
+                .status(200)
+                .send({
+                    "status": "success",
+                    "message": "All wishlists retrieved successfully",
+                    "data": result
+                });
+
+        })
+        .catch((error) => {
+            return res
+                .status(500)
+                .send({
+                    "status": "error",
+                    "error": error
+                });
+        });
+}
+
+const deleteWish = (req, res) => {
+    const _id = req.params.id;
+
+    if (!_id) {
+        return res
+            .status(400)
+            .send({
+                "status": "fail",
+                "data": {
+                    "id": "An object id is required"
+                }
+            });
+    }
+
+    Wish
+        .findByIdAndDelete(_id)
+        .then((result) => {
+            if (!result) {
+                return res
+                    .status(400)
+                    .send({
+                        "status": "fail",
+                        "data": {
+                            "id": "Wish doesn't exist"
+                        }
+                    });
+            }
+
+            return res
+                .status(200)
+                .send({
+                    "status": "success",
+                    "message": "Wish deleted successfully",
+                    "data": {
+                        "wish": result
+                    }
+                });
+        })
+        .catch((error) => {
+            return res
+                .status(500)
+                .send({
+                    "status": "error",
+                    "error": error
+                });
+        });
+}
+
+const deleteWishlist = (req, res) => {
+    const userId = req.params.userId;
+
+    if (!userId) {
+        return res
+            .status(400)
+            .send({
+                "status": "fail",
+                "data": {
+                    "username": "A username is required"
+                }
+            });
+    }
+
+    let filter = { userId: userId };
+
+    Wish
+    .deleteMany(filter)
+        .then((result) => {
+            if (result.data.deletedCount === 0) {
+                return res
+                    .status(404)
+                    .send({
+                        "status": "error",
+                        "error": "Cannot find wishlist"
+                    });
+            }
+
+            return res
+                .status(200)
+                .send({
+                    "status": "success",
+                    "message": "Wishlists deleted successfully",
+                    "data": result
+                });
+        }).catch((error) => {
+            return res
+                .status(500)
+                .send({
+                    "status": "error",
+                    "error": error
+                });
+        });
+}
+
+const deleteAll = (req, res) => {
+    Wish
+        .deleteMany()
+        .then((result) => {
+            return res
+                .status(200)
+                .send({
+                    "status": "success",
+                    "message": "Wishlists deleted successfully",
+                    "data": result
+                });
+        }).catch((error) => {
+            return res
+                .status(500)
+                .send({
+                    "status": "error",
+                    "error": error
+                });
+    });
 }
 
 const wishValidation = (req, res, next) => {
@@ -217,5 +442,10 @@ const wishValidation = (req, res, next) => {
 
 module.exports = {
     wishValidation,
-    newWish
+    newWish,
+    wishlist,
+    allWishlists,
+    deleteAll,
+    deleteWishlist,
+    deleteWish
 }
