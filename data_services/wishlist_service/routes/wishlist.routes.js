@@ -1,7 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const { wishValidation, newWish} = require("../controllers/wishlist.controller");
+const { wishValidation, newWish, wishlist, allWishlists, deleteAll, deleteWish, deleteWishlist} = require("../controllers/wishlist.controller");
 
+// retrieve wishes
+router.get('/', allWishlists);
+router.get('/:userId', wishlist);
+
+// create a new wish
 router.post('/new', wishValidation, newWish);
+
+// delete wishes and wishlists
+router.delete('/:id', deleteWish);
+router.delete('/wishlist/:userId', deleteWishlist);
+router.delete('/', deleteAll);
 
 module.exports = router;
