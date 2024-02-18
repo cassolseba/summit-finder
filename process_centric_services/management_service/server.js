@@ -16,8 +16,8 @@ const corsOptions = {
 server.use(cors(corsOptions));
 
 /* ---------- SET ROUTES ---------- */
-// const routes = require("./routes/management.routes")
-// server.use('/', routes);
+const routes = require("./routes/management.routes")
+server.use('/', routes);
 
 server.get('/', (req, res) => {
     res.status(200).send("Welcome to the management service!");
