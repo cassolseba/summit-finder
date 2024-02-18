@@ -185,9 +185,7 @@ const weather = async (req, res) => {
             .send({
                 "status": "success",
                 "message": "Actual weather succesfully retrieved",
-                "data": {
-                    "weather": response.data.data
-                }
+                "data": response.data.data
             });
 
 
