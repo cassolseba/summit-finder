@@ -3,7 +3,7 @@ const router = express.Router();
 const { wishValidation, newWish, wishlist, allWishlists, deleteAll, deleteWish, deleteWishlist, wish} = require("../controllers/wishlist.controller");
 
 // retrieve wishes
-router.get('/', allWishlists);
+router.get('/wishlist', allWishlists);
 router.get('/:id', wish);
 router.get('/wishlist/:userId', wishlist);
 
