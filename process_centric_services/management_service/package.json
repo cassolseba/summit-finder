@@ -1,0 +1,32 @@
+{
+  "name": "management_service",
+  "version": "1.0.0",
+  "description": "Service that is in charge of managing requests to other services and verify user authentication/authorization ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cassolseba/summit-finder.git"
+  },
+  "keywords": [
+    "node.js",
+    "jwt",
+    "jsonwebtoken",
+    "axios",
+    "express"
+  ],
+  "author": "Sebastiano Cassol",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cassolseba/summit-finder/issues"
+  },
+  "homepage": "https://github.com/cassolseba/summit-finder#readme",
+  "dependencies": {
+    "axios": "^1.6.7",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
