@@ -100,7 +100,6 @@ services:
       - DB_PASSWORD=$WISHLIST_DB_PASSWORD
       - DB_NAME=$WISHLIST_DB_NAME
       - DB_PORT=$WISHLIST_DB_PORT
-      - JWT_SECRET=$JWT_SECRET
     ports:
       - "8086:8080"
     stdin_open: true
