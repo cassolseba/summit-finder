@@ -20,11 +20,11 @@ const routes = require("./routes/tour.routes")
 server.use('/', routes);
 
 server.get('/', (req, res) => {
-    res.status(200).send("Welcome to the management service!");
+    res.status(200).send("Welcome to the tour service!");
 })
 
 /* ---------- RUN SERVER ---------- */
-const port = process.env.MANAGEMENT_SERVICE_PORT || 8080;
+const port = process.env.TOUR_SERVICE_PORT || 8080;
 server.listen(port, () => {
     console.log(`SERVER IS FIRE ON PORT http://localhost:${port}`);
 })
