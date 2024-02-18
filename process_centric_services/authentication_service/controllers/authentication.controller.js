@@ -1,8 +1,6 @@
 const bcrypt = require("bcrypt");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
-const e = require("express");
-const {response} = require("express");
 
 const signin = async (req, res) => {
     if(!req.body.username) {
