@@ -46,40 +46,6 @@ const newWish = (req, res) => {
         });
 }
 
-// const validateToken = (req, res, next) => {
-//     let token = req.headers['authorization'];
-//
-//     const secret = process.env.JWT_SECRET;
-//
-//     if (!token) {
-//         return res
-//             .status(401)
-//             .send({
-//                 "status": "fail",
-//                 "data": {
-//                     "authorization": "Missing authorization token" // todo fix this message
-//                 }
-//             });
-//     }
-//
-//     jwt.verify(token, secret, function (error, decoded) {
-//         if (error) {
-//             return res
-//                 .status(401)
-//                 .send({
-//                     "status": "fail",
-//                     "data": {
-//                         "authorization": "Invalid token"
-//                     }
-//                 });
-//         } else {
-//             console.log("Payload: " + decoded);
-//         }
-//     });
-//
-//     next();
-// }
-
 const wishlist = (req, res) => {
     const userId = String(req.params.userId);
 
