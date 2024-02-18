@@ -129,6 +129,16 @@ services:
     stdin_open: true
     tty: true
 
+  tour_service:
+    build:
+      context: ./business_logic_services/tour_service
+    restart: always
+    env_file: ./.env
+    ports:
+      - "8089:8080"
+    stdin_open: true
+    tty: true
+
 volumes:
   user_db:
   wishlist:
