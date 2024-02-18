@@ -149,9 +149,14 @@ def peaks():
         peak = {
             "lat": data["lat"],
             "lon": data["lon"],
-            "name": data["tags"]["name"],
-            # "elevation": None if (data["tags"]["ele"] is None) else data["tags"]["ele"]
+            "name": data["tags"]["name"]
         }
+
+        if "ele" not in data["tags"]:
+            peak["elevation"] = None
+        else:
+            peak["elevation"] = data["tags"]["ele"]
+
         peaks_list.append(peak)
 
     if status == 200:
@@ -310,8 +315,12 @@ def huts():
             "lat": data["lat"],
             "lon": data["lon"],
             "name": data["tags"]["name"],
-            # "elevation": None if (data["tags"]["ele"] is None) else data["tags"]["ele"]
         }
+        if "ele" not in data["tags"]:
+            hut["elevation"] = None
+        else:
+            hut["elevation"] = data["tags"]["ele"]
+
         huts_list.append(hut)
 
     if status == 200:

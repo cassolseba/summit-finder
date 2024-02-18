@@ -51,11 +51,18 @@ def nominatim(place):
     result = result[0]
 
     if status == 200:
+        place_filtered = {
+            "lat": result["lat"],
+            "lon": result["lon"],
+            "name": result["name"],
+            "fullname": result["display_name"]
+        }
+
         response = {
             "status": "success",
             "message": "Place geocoded successfully",
             "data": {
-                "place": result
+                "place": place_filtered
             }
         }
         return response, 200

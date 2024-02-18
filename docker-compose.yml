@@ -129,6 +129,18 @@ services:
     stdin_open: true
     tty: true
 
+  forecast_service:
+    build:
+      context: business_logic_services/forecast_service
+    restart: always
+    env_file: ./.env
+    environment:
+      - OPENWEATHER_ADAPTER_PORT=$OPENWEATHER_ADAPTER_PORT
+    ports:
+      - "8089:8080"
+    stdin_open: true
+    tty: true
+
 volumes:
   user_db:
   wishlist:
