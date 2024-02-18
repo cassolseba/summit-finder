@@ -6,6 +6,15 @@ const allUsers = (req, res) => {
     User
         .find()
         .then((result) => {
+            if (!result) {
+                return res
+                    .status(404)
+                    .send({
+                        "status": "error",
+                        "error": "Cannot find users"
+                    });
+            }
+
             return res
                 .status(200)
                 .send({
