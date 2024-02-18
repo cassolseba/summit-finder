@@ -130,7 +130,7 @@ const signup = async (req, res) => {
            .status(500)
            .send({
                "status": "error",
-              "error": "Error while creating the user in user service" || error
+              "error": `Error while creating the user in user service ${error}`
            });
     });
 }
