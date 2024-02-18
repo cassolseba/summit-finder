@@ -129,9 +129,9 @@ services:
     stdin_open: true
     tty: true
 
-  tour_service:
+  forecast_service:
     build:
-      context: ./business_logic_services/tour_service
+      context: business_logic_services/forecast_service
     restart: always
     env_file: ./.env
     ports:

@@ -1,7 +1,7 @@
 {
-  "name": "tour_service",
+  "name": "forecast_service",
   "version": "1.0.0",
-  "description": "Service that aggregate several data and provide complete informations about a certain tour",
+  "description": "Service that evaluates the forecast and weather data coming from openweather adapter",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,9 +11,9 @@
     "url": "git+https://github.com/cassolseba/summit-finder.git"
   },
   "keywords": [
-    "nodejs",
-    "axios",
-    "express"
+    "node.js",
+    "express",
+    "axios"
   ],
   "author": "Sebastiano Cassol",
   "license": "ISC",

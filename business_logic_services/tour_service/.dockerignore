@@ -1,8 +1,0 @@
-# Ignore build artifacts
-node_modules
-dist
-package-lock.json
-
-# Ignore IDE files
-.vscode
-.idea
