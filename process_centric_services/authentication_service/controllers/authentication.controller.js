@@ -48,7 +48,7 @@ const signin = async (req, res) => {
                         }
 
                         if (result) {
-                            const secret = process.env.JWT_SECRET_KEY;
+                            const secret = process.env.JWT_SECRET;
 
                             let data = response.data.data;
 
