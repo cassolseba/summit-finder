@@ -141,6 +141,18 @@ services:
     stdin_open: true
     tty: true
 
+  tour_service:
+    build:
+      context: process_centric_services/tour_service
+    restart: always
+    env_file: ./.env
+    environment:
+      - OPENWEATHER_ADAPTER_PORT=$OPENWEATHER_ADAPTER_PORT
+    ports:
+      - "8090:8080"
+    stdin_open: true
+    tty: true
+
 volumes:
   user_db:
   wishlist:
