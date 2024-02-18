@@ -117,6 +117,18 @@ services:
     stdin_open: true
     tty: true
 
+  management_service:
+    build:
+      context: ./process_centric_services/management_service
+    restart: always
+    env_file: ./.env
+    environment:
+      - JWT_SECRET=$JWT_SECRET
+    ports:
+      - "8088:8080"
+    stdin_open: true
+    tty: true
+
 volumes:
   user_db:
   wishlist:

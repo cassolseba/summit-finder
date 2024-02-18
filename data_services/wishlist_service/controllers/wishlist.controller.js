@@ -1,4 +1,5 @@
 const Wish = require("../models/wish.model");
+const mongoose = require("mongoose");
 
 const newWish = (req, res) => {
     let originLat = req.body.originLat;
@@ -46,43 +47,50 @@ const newWish = (req, res) => {
         });
 }
 
-// const validateToken = (req, res, next) => {
-//     let token = req.headers['authorization'];
-//
-//     const secret = process.env.JWT_SECRET;
-//
-//     if (!token) {
-//         return res
-//             .status(401)
-//             .send({
-//                 "status": "fail",
-//                 "data": {
-//                     "authorization": "Missing authorization token" // todo fix this message
-//                 }
-//             });
-//     }
-//
-//     jwt.verify(token, secret, function (error, decoded) {
-//         if (error) {
-//             return res
-//                 .status(401)
-//                 .send({
-//                     "status": "fail",
-//                     "data": {
-//                         "authorization": "Invalid token"
-//                     }
-//                 });
-//         } else {
-//             console.log("Payload: " + decoded);
-//         }
-//     });
-//
-//     next();
-// }
+const wish = (req, res) => {
+    if (!req.params.id) {
+        return res
+            .status(400)
+            .send({
+                "status": "fail",
+                "data": {
+                    "id": "An object id is required"
+                }
+            });
+    }
+
+    const _id = String(req.params.id);
+
+    Wish
+        .findById(_id)
+        .then((result) => {
+            if (!result) {
+                return res
+                    .status(404)
+                    .send({
+                        "status": "error",
+                        "error": "Cannot retrieve the wish"
+                    });
+            }
+
+            return res
+                .status(200)
+                .send({
+                    "status": "success",
+                    "message": "Wish retrieved successfully",
+                    "data": result
+                });
+        }).catch((error) => {
+            return res
+                .status(500)
+                .send({
+                    "status": "error",
+                    "error": `Error while searching in db: ${error}`
+                });
+        });
+}
 
 const wishlist = (req, res) => {
-    const userId = String(req.params.userId);
-
     if(!req.params.userId) {
         return res
             .status(400)
@@ -93,6 +101,8 @@ const wishlist = (req, res) => {
                 }
             });
     }
+
+    const userId = String(req.params.userId);
 
     let filter = { userId: userId };
 
@@ -437,12 +447,24 @@ const wishValidation = (req, res, next) => {
             });
     }
 
+    if (!mongoose.Types.ObjectId.isValid(req.body.userId)) {
+        return res
+            .status(400)
+            .send({
+                "status": "fail",
+                "data": {
+                    "userId": "A valid user object id is required"
+                }
+            });
+    }
+
     next();
 }
 
 module.exports = {
     wishValidation,
     newWish,
+    wish,
     wishlist,
     allWishlists,
     deleteAll,

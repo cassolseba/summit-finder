@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { wishValidation, newWish, wishlist, allWishlists, deleteAll, deleteWish, deleteWishlist} = require("../controllers/wishlist.controller");
+const { wishValidation, newWish, wishlist, allWishlists, deleteAll, deleteWish, deleteWishlist, wish} = require("../controllers/wishlist.controller");
 
 // retrieve wishes
-router.get('/', allWishlists);
-router.get('/:userId', wishlist);
+router.get('/wishlist', allWishlists);
+router.get('/:id', wish);
+router.get('/wishlist/:userId', wishlist);
 
 // create a new wish
 router.post('/new', wishValidation, newWish);
