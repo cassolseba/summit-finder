@@ -224,7 +224,7 @@ const deleteWishlist = (req, res) => {
     Wish
     .deleteMany(filter)
         .then((result) => {
-            if (result.data.deletedCount === 0) {
+            if (result.deletedCount === 0) {
                 return res
                     .status(404)
                     .send({
