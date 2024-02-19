@@ -1,11 +1,11 @@
 <script>
 export default {
-  name: "Wishlist"
+  name: "WishlistView"
 }
 </script>
 
 <template>
-
+  <h2>Wishlist</h2>
 </template>
 
 <style scoped>

@@ -1,11 +1,11 @@
 <script>
 export default {
-  name: "Search"
+  name: "HomeView"
 }
 </script>
 
 <template>
-
+  <h2>Homepage</h2>
 </template>
 
 <style scoped>
