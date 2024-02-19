@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { Home } from "../views/Home.vue"
-import { Search } from "../views/Search.vue"
-import { Wishlist } from "../views/Wishlist.vue"
+import Home from "@/views/HomeView.vue"
+import Search from "@/views/SearchView.vue"
+import Wishlist from "@/views/WishlistView.vue"
+import Login from "@/views/LoginView.vue"
 
 const routes = [
     {
@@ -27,10 +28,27 @@ const routes = [
         meta: {
             title: "Search tour"
         }
+    },
+    {
+        path:'/login',
+        name: 'Login',
+        component: Login,
+        meta: {
+            title: "Login"
+        }
     }
+    // {
+    //     path: "*",
+    //     name: "NotFound",
+    //     meta: {
+    //         title: "Page not found"
+    //     }
+    // }
 ];
 
 const router = createRouter({
     history: createWebHistory(),
     routes
 });
+
+export default router;
