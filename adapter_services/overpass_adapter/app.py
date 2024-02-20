@@ -149,12 +149,13 @@ def peaks():
 
     if not result["elements"]:
         response = {
-            "status": "fail",
+            "status": "success",
+            "message": "There are no peaks in this area. Try to increase the range",
             "data": {
-                "peaks": "It was not possible to find peaks around the specified area"
+                "peaks": []
             }
         }
-        return response, 400
+        return response, 200
 
     peaks_list = []
     for data in result["elements"]:
@@ -315,12 +316,13 @@ def huts():
 
     if not result["elements"]:
         response = {
-            "status": "fail",
+            "status": "success",
+            "message": "There are no huts in this area. Try to increase the range",
             "data": {
-                "huts": "It was not possible to find huts around the specified area"
+                "huts": []
             }
         }
-        return response, 400
+        return response, 200
 
     huts_list = []
     for data in result["elements"]:
