@@ -73,7 +73,7 @@ const findWishlist = async (req, res) => {
     let userId = String(req.userId);
 
     let port = process.env.WISHLIST_SERVICE_PORT;
-    let url = `http://wishlist_service:${port}/${userId}`;
+    let url = `http://wishlist_service:${port}/wishlist/${userId}`;
 
     await axios.get(url)
         .then((response) => {
@@ -84,7 +84,7 @@ const findWishlist = async (req, res) => {
                         "status": "success",
                         "message": "Wishlist successfully retrieved",
                         "data": {
-                            "wish": response.data
+                            "wish": response.data.data
                         }
                     });
             }
@@ -111,7 +111,7 @@ const findAllWishlists = async (req, res) => {
     }
 
     let port = process.env.WISHLIST_SERVICE_PORT;
-    let url = `http://wishlist_service:${port}/`;
+    let url = `http://wishlist_service:${port}/wishlist`;
 
     await axios.get(url)
         .then((response) => {
@@ -121,9 +121,14 @@ const findAllWishlists = async (req, res) => {
                     .send({
                         "status": "success",
                         "message": "All wishlists successfully retrieved",
-                        "data": {
-                            "wish": response.data
-                        }
+                        "data": response.data.data
+                    });
+            } else {
+                return res
+                    .status(404)
+                    .send({
+                        "status": "error",
+                        "message": "No wishlist available"
                     });
             }
         }).catch((error) => {
