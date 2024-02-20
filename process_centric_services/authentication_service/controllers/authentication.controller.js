@@ -60,7 +60,7 @@ const signin = async (req, res) => {
                                 dt: new Date()
                             };
 
-                            const token = "Bearer " + jwt.sign({ user }, secret, { expiresIn: "1000s"} );
+                            const token = "Bearer " + jwt.sign({ user }, secret, { expiresIn: "1h"} );
 
                             return res
                                 .status(200)
