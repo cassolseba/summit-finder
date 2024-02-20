@@ -113,7 +113,7 @@ const forecast = async (req, res) => {
         tomorrowForecast["avgCloudiness"] = avgCloudiness / 8.0;
         tomorrowForecast["maxWind"] = maxWind;
         tomorrowForecast["minWind"] = minWind;
-        tomorrowForecast["avgWind"] = avgWind;
+        tomorrowForecast["avgWind"] = avgWind / 8.0;
         tomorrowForecast["condition"] = condition;
         // easter egg
         if (totalSnow > 15.0) {
