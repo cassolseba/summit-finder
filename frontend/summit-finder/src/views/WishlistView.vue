@@ -3,6 +3,7 @@ import axios from "axios";
 import authHeader from "../../services/data.service";
 
 const WISHLIST_URL = `http://management_service:${process.env.VUE_APP_MANAGEMENT_PORT || 8088}/wishlist`;
+const WISH_URL = `http://management_service:${process.env.VUE_APP_MANAGEMENT_PORT || 8088}/wish`;
 export default {
   name: "WishlistView",
   data() {
@@ -16,14 +17,22 @@ export default {
           .get(WISHLIST_URL, { headers: authHeader() })
           .then((response) => {
             console.log("Wishlist retrieved successfully");
-            this.wishlist = response.data.data.wish;
+            this.wishlist = response.data.data.wishlist;
           }).catch((error) => {
             this.wishlist = null;
             console.log(`Error while retrieving the wishlist: ${error}`);
           });
     },
     async deleteWish(_id) {
-      window.alert("Will delete " + _id);
+      await axios
+          .delete(`${WISH_URL}/${_id}`, { headers: authHeader(),})
+          .then(() => {
+              console.log("Wish deleted successfully");
+              window.alert("Wish deleted successfully");
+              this.$router.go({ path:'/wishlist'});
+          }).catch((error) => {
+            console.log(`Error while deleting the wish: ${error}`);
+          })
     }
   },
   mounted() {
@@ -35,6 +44,7 @@ export default {
 <template>
 
   <v-card
+      v-show="wishlist"
       v-for="wish in wishlist" :key="wish"
       class="ma-auto pa-5"
       elevation="8"
