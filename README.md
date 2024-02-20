@@ -8,7 +8,7 @@ user can search for mountain peaks and alpine refuges to reach and save the resu
 Since the wishlist is private, the user is required to create an account and authenticate to access the application.
 
 ## Architecture
-![Summit Finder Architecture](https://github.com/cassolseba/summit-finder/assets/scheme-summit-finder.png "Summit Finder Architecture")
+![Summit Finder Architecture](https://github.com/cassolseba/summit-finder/blob/main/assets/scheme-summit-finder.png "Summit Finder Architecture")
 
 # JSend
 Since JSON:API and Swagger are too complex for a project of this scale,
