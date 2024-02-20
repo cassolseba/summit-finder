@@ -27,6 +27,7 @@ services:
       - DB_NAME=$USER_DB_NAME
       - DB_PORT=$USER_DB_PORT
       - AUTHENTICATION_SERVICE_PORT=$AUTHENTICATION_SERVICE_PORT
+      - AUTHENTICATION_SERVICE_HOST_PORT=$AUTHENTICATION_SERVICE_HOST_PORT
     ports:
       - "80:8080"
     stdin_open: true
@@ -37,6 +38,9 @@ services:
       context: ./adapter_services/nominatim_adapter
     restart: always
     env_file: ./.env
+    environment:
+      - TOUR_SERVICE_PORT=$TOUR_SERVICE_PORT
+      - TOUR_SERVICE_HOST_PORT=$TOUR_SERVICE_HOST_PORT
     ports:
       - "8082:5000"
     stdin_open: true
@@ -49,7 +53,8 @@ services:
     env_file: ./.env
     environment:
       - OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY
-      - FORECAST_SERVICE_PORT=$FORECAST_SERVICE_PORT
+      - FORECAST_SERVICE_PORT=$FORECAST_SERVICE_PORT # cors
+      - FORECAST_SERVICE_HOST_PORT=$FORECAST_SERVICE_HOST_PORT # cors
     ports:
       - "8083:8080"
     stdin_open: true
@@ -60,6 +65,8 @@ services:
       context: ./adapter_services/overpass_adapter
     restart: always
     env_file: ./.env
+    environment:
+      - TOUR_SERVICE_PORT=$TOUR_SERVICE_PORT
     ports:
       - "8084:5000"
     stdin_open: true
@@ -72,6 +79,8 @@ services:
     env_file: ./.env
     environment:
       - GOOGLE_ELEVATION_API_KEY=$GOOGLE_ELEVATION_API_KEY
+      - TOUR_SERVICE_PORT=$TOUR_SERVICE_PORT # cors
+      - TOUR_SERVICE_HOST_PORT=$TOUR_SERVICE_HOST_PORT # cors
     ports:
       - "8085:5000"
     stdin_open: true
@@ -102,7 +111,8 @@ services:
       - DB_PASSWORD=$WISHLIST_DB_PASSWORD
       - DB_NAME=$WISHLIST_DB_NAME
       - DB_PORT=$WISHLIST_DB_PORT
-      - MANAGEMENT_SERVICE_PORT=$MANAGEMENT_SERVICE_PORT
+      - MANAGEMENT_SERVICE_PORT=$MANAGEMENT_SERVICE_PORT # cors
+      - MANAGEMENT_SERVICE_HOST_PORT=$MANAGEMENT_SERVICE_HOST_PORT # cors
     ports:
       - "8086:8080"
     stdin_open: true
@@ -115,7 +125,8 @@ services:
     env_file: ./.env
     environment:
       - JWT_SECRET=$JWT_SECRET
-      - FRONTEND_PORT=$FRONTEND_PORT
+      - FRONTEND_PORT=$FRONTEND_PORT # cors
+      - FRONTEND_HOST_PORT=$FRONTEND_HOST_PORT # cors
     ports:
       - "8087:8080"
     stdin_open: true
@@ -128,7 +139,8 @@ services:
     env_file: ./.env
     environment:
       - JWT_SECRET=$JWT_SECRET
-      - FRONTEND_PORT=$FRONTEND_PORT
+      - FRONTEND_PORT=$FRONTEND_PORT # cors
+      - FRONTEND_HOST_PORT=$FRONTEND_HOST_PORT # cors
     ports:
       - "8088:8080"
     stdin_open: true
@@ -141,6 +153,8 @@ services:
     env_file: ./.env
     environment:
       - OPENWEATHER_ADAPTER_PORT=$OPENWEATHER_ADAPTER_PORT
+      - FRONTEND_PORT=$FRONTEND_PORT # cors
+      - FRONTEND_HOST_PORT=$FRONTEND_HOST_PORT # cors
     ports:
       - "8089:8080"
     stdin_open: true
@@ -156,7 +170,8 @@ services:
       - OVERPASS_ADAPTER_PORT=$OVERPASS_ADAPTER_PORT
       - ELEVATION_ADAPTER_PORT=$ELEVATION_ADAPTER_PORT
       - OPENWEATHER_ADAPTER_PORT=$OPENWEATHER_ADAPTER_PORT
-      - FRONTEND_PORT=$FRONTEND_PORT
+      - FRONTEND_PORT=$FRONTEND_PORT # cors
+      - FRONTEND_HOST_PORT=$FRONTEND_HOST_PORT # cors
     ports:
       - "8090:8080"
     stdin_open: true
@@ -165,13 +180,13 @@ services:
   frontend:
     build:
       context: frontend/summit-finder
+      args:
+        - VUE_APP_TOUR_PORT=$TOUR_SERVICE_HOST_PORT
+        - VUE_APP_AUTHENTICATION_PORT=$AUTHENTICATION_SERVICE_HOST_PORT
+        - VUE_APP_MANAGEMENT_PORT=$MANAGEMENT_SERVICE_HOST_PORT
+        - VUE_APP_GOOGLE_MAPS_KEY=$VUE_APP_GOOGLE_MAPS_KEY
     restart: always
     env_file: ./.env
-    environment:
-      - VUE_APP_TOUR_SERVICE_PORT=$TOUR_SERVICE_PORT
-      - VUE_APP_AUTHENTICATION_SERVICE_PORT=$AUTHENTICATION_SERVICE_PORT
-      - VUE_APP_MANAGEMENT_SERVICE_PORT=$MANAGEMENT_SERVICE_PORT
-      - VUE_APP_GOOGLE_ELEVATION_API_KEY=$GOOGLE_ELEVATION_API_KEY
     ports:
       - "8091:80"
     stdin_open: true
