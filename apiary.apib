@@ -1,80 +1,1237 @@
 FORMAT: 1A
-HOST: https://polls.apiblueprint.org/
+HOST: http://localhost:80
 
-# summit-finder
+# Summit Finder
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+Summit Finder API collection.  
+Here are listed all endpoints of Summit Finder application.  
+Please note that for each request only one error message is described. 
 
-## Questions Collection [/questions]
+## Tour [/tour?{origin}=Trento&{destination}=Belluno&{range}=4000]
+http://tour_service:{port}/tour
 
-### List All Questions [GET]
+### Get a tour [GET]
+
+Given an origin, a destination and a range in meters, retrieve the latitude of 
+both places, the peaks and the alpine refuse within the range, the actual weather at the
+destination and the forecast for the next five days.
+
++ Parameters
+
+    + origin (string) - name of the origin
+    + destination (string) - name of the destination
+    + range (number) - range (in meters) to perform the research of peaks and alpine huts
 
 + Response 200 (application/json)
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+        {
+            "status": "success",
+            "message": "Tour retrieved successfully",
+            "data": {
+                "origin": {
+                    "fullname": "Trento, Territorio Val d'Adige, Provincia di Trento, Trentino-Alto Adige/Südtirol, 38121-38123, Italia",
+                    "lat": "46.0664228",
+                    "lon": "11.1257601",
+                    "name": "Trento"
+                },
+                "destination": {
+                    "fullname": "Belluno, Veneto, Italia",
+                    "lat": "46.2805407",
+                    "lon": "12.078913722504204",
+                    "name": "Belluno"
+                },
+                "peaks": [
                     {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
+                        "elevation": 1751,
+                        "lat": 46.3067424,
+                        "lon": 12.089937,
+                        "name": "Col Menadar"
+                    },
+                    {
+                        "elevation": 2083,
+                        "lat": 46.2633567,
+                        "lon": 12.0925,
+                        "name": "Monte Celo"
+                    },
+                    {
+                        "elevation": 1883,
+                        "lat": 46.2654977,
+                        "lon": 12.1138548,
+                        "name": "Valaraz"
+                    },
+                    {
+                        "elevation": 1490.087890625,
+                        "lat": 46.3067039,
+                        "lon": 12.0474659,
+                        "name": "Col Martinel"
+                    },
+                    {
+                        "elevation": 2080,
+                        "lat": 46.3075561,
+                        "lon": 12.1077383,
+                        "name": "Cima del Costone"
+                    },
+                    {
+                        "elevation": 762.7948608398438,
+                        "lat": 46.273731,
+                        "lon": 12.0438329,
+                        "name": "Cima Col di Foglia"
                     }
+                ],
+                "huts": [
+                    {
+                        "elevation": 1532.413940429688,
+                        "lat": 46.267883,
+                        "lon": 12.1025651,
+                        "name": "Bait de Folega"
+                    }
+                ],
+                "weather": {
+                    "condition": "Clear",
+                    "description": "clear sky",
+                    "temp": 3.9,
+                    "perceivedTemp": 1.54,
+                    "humidity": 83,
+                    "visibility": 10000,
+                    "wind": 2.56,
+                    "clouds": 6,
+                    "dt": "2024-02-20T20:50:27.000Z",
+                    "timezone": 3600,
+                    "sunrise": "2024-02-20T07:08:09.000Z",
+                    "sunset": "2024-02-20T17:43:09.000Z"
+                },
+                "tomorrow": {
+                    "minTemp": 1.61,
+                    "maxTemp": 7.31,
+                    "avgTemp": 4.177499999999999,
+                    "totalRain": 0,
+                    "totalSnow": 0,
+                    "maxProbability": 0,
+                    "minHumidity": 42,
+                    "maxHumidity": 97,
+                    "minVisibility": 10000,
+                    "maxVisibility": 10000,
+                    "avgVisibility": 10000,
+                    "avgHumidity": 68.625,
+                    "avgCloudiness": 72.25,
+                    "maxWind": 2.02,
+                    "minWind": 0.61,
+                    "avgWind": 1.4499999999999997,
+                    "condition": [
+                        "Clouds"
+                    ],
+                    "description": [
+                        "few clouds",
+                        "broken clouds",
+                        "scattered clouds",
+                        "overcast clouds"
+                    ],
+                    "date": "2024-02-21T01:00:00.000Z"
+                },
+                "forecast": [
+                    {
+                        "condition": "Clear",
+                        "description": "clear sky",
+                        "temp": 3.9,
+                        "perceivedTemp": 1.57,
+                        "humidity": 83,
+                        "visibility": 10000,
+                        "wind": 2.53,
+                        "clouds": 8,
+                        "rain": 0,
+                        "snow": 0,
+                        "probability": 0,
+                        "dt": "2024-02-20T22:00:00.000Z"
+                    },
+                    {
+                        "condition": "Clouds",
+                        "description": "few clouds",
+                        "temp": 3.4,
+                        "perceivedTemp": 1.48,
+                        "humidity": 77,
+                        "visibility": 10000,
+                        "wind": 2.02,
+                        "clouds": 22,
+                        "rain": 0,
+                        "snow": 0,
+                        "probability": 0,
+                        "dt": "2024-02-21T01:00:00.000Z"
+                    },
+                    { ... }
                 ]
             }
-        ]
+        }
 
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ Request (application/json)
++ Response 400
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "status": "fail",
+            "data": {
+            "range": "Range must be greater than 0"
         }
+        
++ Response 500
+
+        {
+            "status": "error",
+            "error": "Error while retrieving origin coordinates from Nominatim adapter"
+        }
+
+## Current weather [/forecast/now?{lat}=46.06&{lon}=11.72]
+http://forecast_service:{port}/forecast/now
+
+### Get current weather [GET]
+
+Given a latitude and a longitude, retrieve information about the current weather.
+
++ Parameters
+
+    + lat (number) - latitiude
+    + lon (number) - longitude
+    
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "message": "Actual weather succesfully retrieved",
+            "data": {
+                "weather": {
+                    "condition": "Clear",
+                    "description": "clear sky",
+                    "temp": 4.13,
+                    "perceivedTemp": 2.75,
+                    "humidity": 66,
+                    "visibility": 10000,
+                    "wind": 1.66,
+                    "clouds": 6,
+                    "dt": "2024-02-20T20:53:13.000Z",
+                    "timezone": 3600,
+                    "sunrise": "2024-02-20T07:09:14.000Z",
+                    "sunset": "2024-02-20T17:44:56.000Z"
+                }
+            }
+        }
+
++ Response 400
+
+        {
+            "status": "fail",
+            "data": {
+                "lat": "Latitude must be a decimal number between -90 and 90"
+            }
+        }
+
+
+## Forecast [/forecast/next?{lat}=46.06&{lon}=11.72]
+http://forecast_service:{port}/forecast/next
+
+### Get forecast [GET]
+
+Given latitude and longitude, retrieve the 
+forecast for tomorrow (with additional information) and for the
+next five days.
+
++ Parameters
+
+    + lat (number) - latitiude
+    + lon (number) - longitude
+    
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "message": "Forecast successfully retrieved",
+            "data": {
+                "forecasts": [
+                    {
+                        "condition": "Clear",
+                        "description": "clear sky",
+                        "temp": 4.05,
+                        "perceivedTemp": 2.58,
+                        "humidity": 66,
+                        "visibility": 10000,
+                        "wind": 1.72,
+                        "clouds": 8,
+                        "rain": 0,
+                        "snow": 0,
+                        "probability": 0.03,
+                        "dt": "2024-02-20T22:00:00.000Z"
+                    },
+                    {
+                        "condition": "Clouds",
+                        "description": "few clouds",
+                        "temp": 3.65,
+                        "perceivedTemp": 2.45,
+                        "humidity": 67,
+                        "visibility": 10000,
+                        "wind": 1.47,
+                        "clouds": 23,
+                        "rain": 0,
+                        "snow": 0,
+                        "probability": 0.09,
+                        "dt": "2024-02-21T01:00:00.000Z"
+                    },
+                    {
+                        "condition": "Clouds",
+                        "description": "broken clouds",
+                        "temp": 2.65,
+                        "perceivedTemp": 1.18,
+                        "humidity": 66,
+                        "visibility": 10000,
+                        "wind": 1.56,
+                        "clouds": 57,
+                        "rain": 0,
+                        "snow": 0,
+                        "probability": 0,
+                        "dt": "2024-02-21T04:00:00.000Z"
+                    },
+                    { ... }
+                ],
+                "tomorrow": {
+                    "minTemp": 1.46,
+                    "maxTemp": 8.01,
+                    "avgTemp": 4.3825,
+                    "totalRain": 0,
+                    "totalSnow": 0,
+                    "maxProbability": 0.09,
+                    "minHumidity": 51,
+                    "maxHumidity": 95,
+                    "minVisibility": 10000,
+                    "maxVisibility": 10000,
+                    "avgVisibility": 10000,
+                    "avgHumidity": 69.25,
+                    "avgCloudiness": 70.5,
+                    "maxWind": 1.81,
+                    "minWind": 0.58,
+                    "avgWind": 1.23125,
+                    "condition": [
+                        "Clouds"
+                    ],
+                    "description": [
+                        "few clouds",
+                        "broken clouds",
+                        "scattered clouds",
+                        "overcast clouds"
+                    ],
+                    "date": "2024-02-21T01:00:00.000Z"
+                }
+            }
+        }
+        
++ Response 400
+
+        {
+            "status": "fail",
+            "data": {
+                "lon": "A longitude is required"
+            }
+        }
+
+## Management [/wish]
+http://management_service:{port}/wish
+
+### Create a new wish [POST]
+
+Add a search result to your wishlist.
+Require access token.
+
++ Request
+
+    + Headers
+            
+            Authorization: "Bearer JWT TOKEN"
+            
+    + Body
+
+            {
+                "originLat": 46.48,
+                "originLon": 12.05,
+                "originName": "Feltre",
+                "destinationLat": 46.01,
+                "destinationLon": 11.90,
+                "destinationName": "Passo Giau",
+                "huts": ["Rifugio Dal Piaz"],
+                "peaks": ["Magheron"]
+            }
 
 + Response 201 (application/json)
 
-    + Headers
+        {
+            "status": "success",
+            "message": "Wish added successfully",
+            "data": {
+                "wish": {
+                    "originLat": 46.48,
+                    "originLon": 12.05,
+                    "originName": "Feltre",
+                    "destinationLat": 46.01,
+                    "destinationLon": 11.9,
+                    "destinationName": "Passo Giau",
+                    "huts": [
+                        "Rifugio Dal Piaz"
+                    ],
+                    "peaks": [
+                        "Magheron"
+                    ],
+                    "userId": "65d506be9947c86f144dea47",
+                    "_id": "65d506cc4b077afc11eb4e4f",
+                    "createdAt": "2024-02-20T20:08:44.349Z",
+                    "updatedAt": "2024-02-20T20:08:44.349Z",
+                    "__v": 0
+                }
+            }
+        }
+        
++ Response 400
 
-            Location: /questions/2
+        {
+            "status": "fail",
+            "data": {
+                "originLat": "The latitude of the origin must be a decimal number between 180 and -180"
+            }
+        }
+        
++ Response 401
+
+        {
+            "status": "fail",
+            "data": {
+                "authorization": "Missing authorization token"
+            }
+        }
+    
+## Management [/wish/{id}]
+http://management_service:{port}/wish/:id
+
+### Delete a wish [DELETE]
+
+Delete a specific wish from the wishlist, providing the access token and the object id.
+
++ Parameters
+
+    + id (string) - object id of the wish to delete
+
++ Request
+
+    + Headers
+            
+            Authorization: "Bearer JWT TOKEN"
+
++ Response 202 (application/json)
+
+        {
+            "status": "success",
+            "message": "Wish deleted successfully",
+            "data": {
+                "wish": {
+                    "_id": "65d50af9f0627df729b53bce",
+                    "originLat": 46.48,
+                    "originLon": 12.05,
+                    "originName": "Feltre",
+                    "destinationLat": 46.01,
+                    "destinationLon": 11.9,
+                    "destinationName": "Passo Giau",
+                    "huts": [
+                        "Rifugio Dal Piaz"
+                    ],
+                    "peaks": [
+                        "Magheron"
+                    ],
+                    "userId": "65d506be9947c86f144dea47",
+                    "createdAt": "2024-02-20T20:26:33.570Z",
+                    "updatedAt": "2024-02-20T20:26:33.570Z",
+                    "__v": 0
+                }
+            }
+        }
+
++ Response 500
+
+        {
+            "status": "error",
+            "error": "Error while searching the wish in wishlist service"
+        }
+    
+## Management [/wishlist]
+http://management_service:{port}/wishlist
+
+### Retrieve the user wishlist [GET]
+
+Retrieve the user wishlist, providing the access token.
+
++ Request (application/json)
+
+    + Headers
+            
+            Authorization: "Bearer JWT TOKEN"
+            
++ Response 200 (applciation/json)
+
+        {
+            "status": "success",
+            "message": "Wishlist successfully retrieved",
+            "data": {
+                "wishlist": [
+                    {
+                        "_id": "65d506fc4b077afc11eb4e51",
+                        "originLat": 46.48,
+                        "originLon": 12.05,
+                        "originName": "Feltre",
+                        "destinationLat": 46.01,
+                        "destinationLon": 11.9,
+                        "destinationName": "Passo Giau",
+                        "huts": [
+                            "Rifugio Dal Piaz"
+                        ],
+                        "peaks": [
+                            "Magheron"
+                        ],
+                        "userId": "65d506be9947c86f144dea47",
+                        "createdAt": "2024-02-20T20:09:32.366Z",
+                        "updatedAt": "2024-02-20T20:09:32.366Z",
+                        "__v": 0
+                    },
+                    { ... }
+                ]
+            }
+        }
+        
++ Response 401
+
+        {
+            "status": "fail",
+            "data": {
+                "authorization": "Missing authorization token"
+            }
+        }
+
+
+### Delete the user wishlist [DELETE]
+
++ Request (application/json)
+
+    + Headers
+            
+            Authorization: "Bearer JWT TOKEN"
+
++ Response 202 (application/json)
+
+        {
+            "status": "success",
+            "message": "Wishlist deleted successfully",
+            "data": {
+                "wish": {
+                    "acknowledged": true,
+                    "deletedCount": 4
+                }
+            }
+        }
+        
++ Response 500
+
+        {
+            "status": "error",
+            "error": "Error while removing the wishlist in wishlist service"
+        }
+
+## Management [/wishlist/all]
+http://management_service:{port}/wishlist/all
+
+### Get wishlists of all users [GET]
+
+As an admin, retrieve all the wishlist contained in the database.
+
++ Request
+
+    + Headers
+            
+            Authorization: "Bearer JWT TOKEN"
+
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "message": "All wishlists successfully retrieved",
+            "data": {
+                "wishlists": [
+                    {
+                        "_id": "65d50980f0627df729b53bc3",
+                        "originLat": 46.48,
+                        "originLon": 12.05,
+                        "originName": "Feltre",
+                        "destinationLat": 46.01,
+                        "destinationLon": 11.9,
+                        "destinationName": "Passo Giau",
+                        "huts": [
+                            "Rifugio Dal Piaz"
+                        ],
+                        "peaks": [
+                            "Magheron"
+                        ],
+                        "userId": "65d506be9947c86f144dea47",
+                        "createdAt": "2024-02-20T20:20:16.523Z",
+                        "updatedAt": "2024-02-20T20:20:16.523Z",
+                        "__v": 0
+                    },
+                    { .. }
+                ]
+            }
+        }
+        
++ Response 401
+
+        {
+            "status": "fail",
+            "data": {
+                "authorization": "Missing authorization token"
+            }
+        }
+        
+### Delete wishlists of all users [DELETE]
+
+As an admin, delete all the wishlist contained in the database.
+
++ Request
+
+    + Headers
+            
+            Authorization: "Bearer JWT TOKEN"
+            
++ Response 202 (application/json)
+
+        {
+            "status": "success",
+            "message": "All wishlists deleted successfully",
+            "data": {
+                "wish": {
+                    "acknowledged": true,
+                    "deletedCount": 3
+                }
+            }
+        }
+
+## Authentication [/user/signin]
+http://authentication_service:{port}/auth/signin
+
+### Sign in [POST]
+
++ Request
+            
+    + Body
+
+            {
+                "username": "user",
+                "password": "sde-project-24"
+            }
+
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "message": "Signed in successfully",
+            "data": {
+                "token": "Bearer JWT TOKEN"
+            }
+        }
+        
++ Response 500
+
+        {
+            "status": "error",
+            "error": "Error while searching the user in user service"
+        }
+
+
+## Authentication [/user/signup]
+http://authentication_service:{port}/auth/signup
+
+### Sign up [POST]
+
++ Request
+            
+    + Body
+
+            {
+                "username": "user",
+                "name": "pretty",
+                "lastName": "name",
+                "email": "pretty.name@studenti.unitn.it",
+                "password": "sde-project-24"
+            }
+
++ Response 201 (application/json)
+
+        {
+            "status": "success",
+            "message": "Signed up successfully",
+            "data": {
+                "user": {
+                    "user": {
+                        "username": "user",
+                        "name": "pretty",
+                        "lastName": "name",
+                        "email": "pretty.name@studenti.unitn.it",
+                        "password": "$2b$10$gvfiNADj7Digh0/G6./BBOzynVZAPz0SOSQ5sH.SVbPSgAaTq7ZDy",
+                        "admin": false,
+                        "_id": "65d50d1f460eab8c4068001e",
+                        "createdAt": "2024-02-20T20:35:43.071Z",
+                        "updatedAt": "2024-02-20T20:35:43.071Z",
+                        "__v": 0
+                    }
+                }
+            }
+        }
+        
++ Response 500
+
+        {
+            "status": "error",
+            "error": "Error while creating the user in user service"
+        }
+
+        
+## Nominatim [/nominatim/{place}]
+http://nominatim_adapter:{port}/nominatim/:place
+
+### Convert a place to latitude and longitude [GET]
+
+Given a name of a place, retrieve from Nominatim the latitude and the longitude.
+
++ Parameters
+
+    + place (string) - name of the place to convert
+
++ Response 200 (application/json)
+
+        {
+            "data": {
+                "place": {
+                    "fullname": "Belluno, Veneto, Italia",
+                    "lat": "46.2805407",
+                    "lon": "12.078913722504204",
+                    "name": "Belluno"
+                }
+            },
+            "message": "Place geocoded successfully",
+            "status": "success"
+        }
+        
++ Response 400
+
+        {
+            "data": {
+                "place": "It was not possible to geocode the place"
+            },
+            "status": "fail"
+        }
+
+## Elevation [/elevation?{lat}=46.48&{lon}=12.05]
+http://elevation_adapter:{port}/elevation
+
+### Retrieve elevation of a place [GET]
+
+Given latitude and longitude, estimate the altitude.
+
++ Parameters
+
+    + lat (number) - latitude
+    + lon (number) - longitude
+
++ Response 200 (application/json)
+
+        {
+            "data": {
+                "elevation": {
+                    "lat": 46.48,
+                    "lon": 12.05,
+                    "meters": 2177.49072265625
+                }
+            },
+            "message": "Elevation found successfully",
+            "status": "success"
+        }
+        
++ Response 400
+
+        {
+            "data": {
+                "lat": "Latitude must be a value between -90 and 90"
+            },
+            "status": "fail"
+        }
+
+## Overpass [/overpass/peaks?{lat}=46.28&{lon}=12.07&{range}=4000]
+http://overpass_adapter:{port}/overpass/peaks
+
+### Search peaks [GET]
+
+Given a latitude, a longitude and a range in meters, retrieve a list of peaks from OpenStreetMaps.
+
++ Parameters
+
+    + lat (number) - latitude
+    + lon (number) - longitude
+    + range (number) - search range in meters
+    
++ Response 200
+
+        {
+            "data": {
+                "peaks": [
+                    {
+                        "elevation": "1751",
+                        "lat": 46.3067424,
+                        "lon": 12.089937,
+                        "name": "Col Menadar"
+                    },
+                    {
+                        "elevation": "2083",
+                        "lat": 46.2633567,
+                        "lon": 12.0925,
+                        "name": "Monte Celo"
+                    },
+                    {
+                        "elevation": "1883",
+                        "lat": 46.2654977,
+                        "lon": 12.1138548,
+                        "name": "Valaraz"
+                    },
+                    {
+                        "elevation": null,
+                        "lat": 46.3067039,
+                        "lon": 12.0474659,
+                        "name": "Col Martinel"
+                    },
+                    {
+                        "elevation": null,
+                        "lat": 46.273731,
+                        "lon": 12.0438329,
+                        "name": "Cima Col di Foglia"
+                    }
+                ]
+            },
+            "message": "Peaks found successfully",
+            "status": "success"
+        }
+
++ Response 400
+
+        {
+            "data": {
+                "range": "Range is not a float number"
+            },
+            "status": "fail"
+        }
+        
+## Overpass [/overpass/huts?{lat}=46.28&{lon}=12.07&{range}=4000]
+http://overpass_adapter:{port}/overpass/huts
+
+### Search huts [GET]
+
+Given a latitude, a longitude and a range in meters, retrieve a list of peaks from OpenStreetMaps.
+
++ Parameters
+
+    + lat (number) - latitude
+    + lon (number) - longitude
+    + range (number) - search range in meters
+    
++ Response 200
+
+        {
+            "data": {
+                "huts": [
+                    {
+                        "elevation": "946",
+                        "lat": 46.2750041,
+                        "lon": 12.1964947,
+                        "name": "Casera Costa dei Nass"
+                    },
+                    {
+                        "elevation": "1322",
+                        "lat": 46.3149721,
+                        "lon": 12.1624356,
+                        "name": "Ricovero del Piano degli Ontani"
+                    },
+                    {
+                        "elevation": null,
+                        "lat": 46.267883,
+                        "lon": 12.1025651,
+                        "name": "Bait de Folega"
+                    },
+                    {
+                        "elevation": "2210",
+                        "lat": 46.3133596,
+                        "lon": 11.9789295,
+                        "name": "Margherita Bedin"
+                    }
+                ]
+            },
+            "message": "Huts found successfully",
+            "status": "success"
+        }
+
+## OpenWeather [/openweather/weather?{lat}=46.06&{lon}=11.72]
+http://openweather_adapter/openweather/weather
+
+### Retrieve current weather [GET]
+
+Given a latitude, a longitude, retrieve the actual weather from OpenWeatherMap.
+
++ Parameters
+
+    + lat (number) - latitude
+    + lon (number) - longitude
+    
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "data": {
+                "weather": {
+                    "condition": "Clear",
+                    "description": "clear sky",
+                    "temp": 3.66,
+                    "perceivedTemp": 2.13,
+                    "humidity": 65,
+                    "visibility": 10000,
+                    "wind": 1.72,
+                    "clouds": 8,
+                    "dt": 1708462762,
+                    "timezone": 3600,
+                    "sunrise": 1708409354,
+                    "sunset": 1708447496
+                }
+            }
+        }
+
+## OpenWeather [/openweather/forecast?{lat}=46.06&{lon}=11.72]
+http://openweather_adapter/openweather/forecast
+
+### Retrieve forecast of next five days [GET]
+
+Given a latitude, a longitude, retrieve the forecast 3 hours / 5 days from OpenWeatherMap.
+
++ Parameters
+
+    + lat (number) - latitude
+    + lon (number) - longitude
+
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "data": {
+                "forecast": [
+                    {
+                        "condition": "Clouds",
+                        "description": "scattered clouds",
+                        "temp": 3.24,
+                        "perceivedTemp": 3.24,
+                        "humidity": 68,
+                        "visibility": 10000,
+                        "wind": 1.23,
+                        "clouds": 38,
+                        "rain": 0,
+                        "snow": 0,
+                        "probability": 0,
+                        "dt": 1708473600
+                    },
+                    {
+                        "condition": "Clouds",
+                        "description": "broken clouds",
+                        "temp": 2.22,
+                        "perceivedTemp": 2.22,
+                        "humidity": 64,
+                        "visibility": 10000,
+                        "wind": 1.32,
+                        "clouds": 56,
+                        "rain": 0,
+                        "snow": 0,
+                        "probability": 0,
+                        "dt": 1708484400
+                    },
+                    { ...}
+                ],
+                "info": {
+                    "timezone": 3600,
+                    "sunrise": 1708409354,
+                    "sunset": 1708447496
+                }
+            }
+        }
+
+
+## User Service [/user/new]
+http://user_service:{port}/user/new
+
+### Create a new user in database [POST]
+
+To create an admin, simply set admin to true.
+
++ Request
+
+    + Body
+            
+            {
+                "username": "user",
+                "name": "pretty",
+                "lastName": "name",
+                "email": "pretty.name@studenti.unitn.it",
+                "password": "sde-project-24",
+                "admin": false
+            }
+
++ Response 201 (application/json)
+
+        {
+            "status": "success",
+            "message": "New user created",
+            "data": {
+                "user": {
+                    "username": "user",
+                    "name": "pretty",
+                    "lastName": "name",
+                    "email": "pretty.name@studenti.unitn.it",
+                    "password": "$2b$10$0xveiIaxxTHX6vWOhKwyqeagXFjhWXQS8TQ3m1GEXEcQjh/XM/Ioe",
+                    "admin": false,
+                    "_id": "65d5145f8add403f4a49a862",
+                    "createdAt": "2024-02-20T21:06:39.080Z",
+                    "updatedAt": "2024-02-20T21:06:39.080Z",
+                    "__v": 0
+                }
+            }
+        }
+
++ Response 400
+
+        {
+            "status": "fail",
+            "data": {
+                "username": "Username already in use"
+            }
+        }
+        
+## User Service [/user]
+http://user_service:{port}/user
+
+### Get all users [GET]
+
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "message": "All users retrieved successfully",
+            "data": [
+                { ... }
+            ]
+        }
+        
+### Delete all users [DELETE]
+
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "message": "Users deleted successfully",
+            "data": {
+                "acknowledged": true,
+                "deletedCount": 1
+            }
+        }
+
+## User Service [/user/{username}]
+http://user_service:{port}/user
+
+### Get a user [GET]
+
+Retrieve a specific user providing the username.
+
++ Parameters
+
+    + username (string)
+
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "message": "User retrieved successfully",
+            "data": { ... }
+        }
+
++ Response 404 (application/json)
+
+        {
+            "status": "error",
+            "error": "Cannot find user"
+        }
+        
+## User Service [/user/{id}]
+http://user_service:{port}/user/:id
+
+### Delete a user [DELETE]
+
+Delete a specifing username providing the object id.
+
++ Parameters
+
+    + id (string) - object id of the user
+
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "message": "User deleted successfully",
+            "data": {
+                "user": { ... }
+            }
+        }
+
++ Response 404
+
+        {
+            "status": "fail",
+            "data": {
+                "id": "User doesn't exist"
+            }
+        }
+
+## Wishlist [/wish/new]
+http://wishlist_service:{port}/wish/new
+
+### Create a new wish
+
++ Request
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
+                "originLat": 46.48,
+                "originLon": 12.05,
+                "originName": "Feltre",
+                "destinationLat": 46.01,
+                "destinationLon": 11.90,
+                "destinationName": "Passo Giau",
+                "huts": ["Rifugio Dal Piaz"],
+                "peaks": ["Magheron"],
+                "userId": "65ce8e4f4a824a88a086c20c"
+            }
+
++ Response 200
+
+        {
+            "status": "success",
+            "message": "Added successfully to the wishlist",
+            "data": {
+                "wish": {
+                    "originLat": 46.48,
+                    "originLon": 12.05,
+                    "originName": "Feltre",
+                    "destinationLat": 46.01,
+                    "destinationLon": 11.9,
+                    "destinationName": "Passo Giau",
+                    "huts": [
+                        "Rifugio Dal Piaz"
+                    ],
+                    "peaks": [
+                        "Magheron"
+                    ],
+                    "userId": "65ce8e4f4a824a88a086c20c",
+                    "_id": "65d51650f0627df729b53bd2",
+                    "createdAt": "2024-02-20T21:14:56.962Z",
+                    "updatedAt": "2024-02-20T21:14:56.962Z",
+                    "__v": 0
+                }
+            }
+        }
+        
+## Wishlist [/wishlist/{userId}]
+http://wishlist_service:{port}/wishlist/:userId
+
+### Retrieve the wishlist of a user
+
++ Response 200
+
+        {
+            "status": "success",
+            "message": "Wishlist retrieved successfully",
+            "data": {
+                "wishlist": [
+                    { ... }
                 ]
             }
+        }
+        
+### Delete the wishlist of a user
+
++ Response 200
+
+        {
+            "status": "success",
+            "message": "Wishlists deleted successfully",
+            "data": {
+                "acknowledged": true,
+                "deletedCount": 1
+            }
+        }
+        
+## Wishlist [/wish/{id}]
+http://wishlist_service:{port}/wish/:id
+
+### Retrieve a wish [GET]
+
+Given the object id, retrieve a specific wish of a wishlist.
+
++ Response 200
+
+        {
+            "status": "success",
+            "message": "Wish retrieved successfully",
+            "data": {
+                "wish": { ... }
+            }
+        }
+        
+### Delete a wish [DELETE]
+
+Given the object id, delete a specific wish from a wishlist.
+
++ Response 200
+
+        {
+            "status": "success",
+            "message": "Wish deleted successfully",
+            "data": {
+                "wish": { ... }
+            }
+        }
+        
+## Wishlist [/wishlist]
+http://wishlist_service:{port}/wishlist
+
+### Retrieve wishlists of all users [GET]
+
++ Response 200
+
+        {
+            "status": "success",
+            "message": "All wishlists retrieved successfully",
+            "data": {
+                "wishlists": [
+                    { ... }
+                ]
+            }
+        }
+        
+### Delete wishlists of all users [DELETE]
+
++ Response 200
+
+        {
+            "status": "success",
+            "message": "Wishlists deleted successfully",
+            "data": {
+                "acknowledged": true,
+                "deletedCount": 1
+            }
+        }
