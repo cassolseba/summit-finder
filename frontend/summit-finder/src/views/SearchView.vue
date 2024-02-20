@@ -1,10 +1,22 @@
 <script>
 import axios from "axios";
+import authHeader from "../../services/data.service";
 const SEARCH_URL = "http://tour_service:8090/";
+const SAVE_URL = "http://management_service:8088/wish";
 
 export default {
   name: "SearchView",
   methods: {
+    addPeak(peak) {
+      if (!this.selectedPeaks.includes(peak)) {
+        this.selectedPeaks.push(peak);
+      }
+    },
+    addHut(hut) {
+      if (!this.selectedHuts.includes(hut)) {
+        this.selectedHuts.push(hut);
+      }
+    },
     async search(research) {
       await axios
           .get(SEARCH_URL, {
@@ -18,11 +30,33 @@ export default {
             window.alert("Search successful");
             this.tour = response.data.data;
             if (response.data.data.peaks[0]) {
-              this.peakfinder = `https://www.peakfinder.com/embed/?lat${response.data.data.peaks[0].lat}&lng=${response.data.data.peaks[0].lon}`
+              this.peakFinder = `https://www.peakfinder.com/embed/?lat${response.data.data.peaks[0].lat}&lng=${response.data.data.peaks[0].lon}`
+            }
+            if(response.data.data.origin && response.data.data.destination) {
+              this.googleMaps = `https://www.google.com/maps/embed/v1/directions?key=${this.key}&origin=${response.data.data.origin.lat},${response.data.data.origin.lon}&destination=${response.data.data.destination.lat},${response.data.data.destination.lon}`;
             }
           }).catch((error) => {
             console.log(`Error in search ${error}`);
             window.alert("Search error");
+          })
+    },
+    async save(tour) {
+      await axios
+          .post(SAVE_URL, {
+            originLat: tour.origin.lat,
+            originLon: tour.origin.lon,
+            originName: tour.origin.name,
+            destinationLat: tour.destination.lat,
+            destinationLon: tour.destination.lon,
+            destinationName: tour.destination.name,
+            huts: this.selectedHuts,
+            peaks: this.selectedPeaks
+          }, { "headers": authHeader() }).then(() => {
+            console.log("Wish saved successful");
+            window.alert("Wish saved successful");
+          }).catch((error) => {
+            console.log(`Error while saving the wish ${error}`);
+            window.alert("Save error");
           })
     }
   },
@@ -34,7 +68,11 @@ export default {
         range: null
       },
       tour: null,
-      peakfinder: null
+      selectedPeaks: [],
+      selectedHuts: [],
+      peakFinder: null,
+      googleMaps: null,
+      key: "AIzaSyDkNJyUdzK3ar-46waFaXnTjqBJIsrEtLw"
     }
   },
 }
@@ -99,6 +137,11 @@ export default {
         :key="peak"
     >
       Peak: {{ peak.name }}
+      <v-icon
+          icon="mdi-plus-circle-outline"
+          class="cursor-pointer"
+          @click="addPeak(peak.name)"
+      ></v-icon>
       <br>
       Elevation: {{ peak.elevation }} m
       <br>
@@ -113,6 +156,11 @@ export default {
       :key="hut"
     >
       Hut: {{ hut.name }}
+      <v-icon
+          icon="mdi-plus-circle-outline"
+          class="cursor-pointer"
+          @click="addHut(hut.name)"
+      ></v-icon>
       <br>
       Elevation: {{ hut.elevation }} m
       <br>
@@ -178,32 +226,51 @@ export default {
     Wind: max {{ tour.tomorrow.maxWind }} km/h, min {{ tour.tomorrow.minWind }} km/h, average {{ tour.tomorrow.avgWind}} km/h
     <br>
     <v-divider/>
+    You are saving the following peaks: {{ selectedPeaks }} and the following alpine huts: {{ selectedHuts }}
     <v-btn
         block
         class="mb-8"
         color="blue"
         size="large"
         variant="tonal"
-        @click="search(research)"
+        @click="save(tour)"
     >Save</v-btn>
 
   </v-card>
 
   <v-card
-      v-if="peakfinder"
+      v-if="peakFinder"
       class="my-5 mx-auto pa-5"
       elevation="8"
       width="500"
       rounded="lg"
   >
     <iframe
-        :src="peakfinder"
+        :src="peakFinder"
         width="100%"
         height="570"
         name="peakfinder">
         <p>Your Browser do not support iFrames.</p>
     </iframe>
   </v-card>
+
+  <v-card
+      v-if="googleMaps"
+      class="my-5 mx-auto pa-5"
+      elevation="8"
+      width="500"
+      rounded="lg"
+  >
+    <iframe
+        :src="googleMaps"
+        width="100%"
+        height="450"
+        name="googlemaps"
+        allowfullscreen>
+    </iframe>
+  </v-card>
+
+
 
 
 </template>
