@@ -102,54 +102,58 @@ const tour = async (req, res) => {
     let elevationUrl = `http://elevation_adapter:${elevationPort}/elevation`;
 
     let completePeaks = [];
-    for (let peak of peaks ) {
-        if (!peak.elevation) {
-            await axios.get(elevationUrl, {
-                params: {
-                    lat: peak.lat,
-                    lon: peak.lon
-                }
-            }).then((response) => {
-                if (response.data && response.data.status === "success") {
-                    peak.elevation = response.data.data.elevation.meters;
-                }
-            }).catch((error) => {
-                return res
-                    .status(500)
-                    .send({
-                        "status": "error",
-                        "error": `Error while retrieving elevation of a peak from Elevation adapter: ${error}`
-                    });
-            });
+    if (peaks !== []) {
+        for (let peak of peaks) {
+            if (!peak.elevation) {
+                await axios.get(elevationUrl, {
+                    params: {
+                        lat: peak.lat,
+                        lon: peak.lon
+                    }
+                }).then((response) => {
+                    if (response.data && response.data.status === "success") {
+                        peak.elevation = response.data.data.elevation.meters;
+                    }
+                }).catch((error) => {
+                    return res
+                        .status(500)
+                        .send({
+                            "status": "error",
+                            "error": `Error while retrieving elevation of a peak from Elevation adapter: ${error}`
+                        });
+                });
+            }
+            peak.elevation = parseFloat(peak.elevation);
+            completePeaks.push(peak);
         }
-        peak.elevation = parseFloat(peak.elevation);
-        completePeaks.push(peak);
     }
 
     // find elevation for huts without elevation parameter
     let completeHuts = [];
-    for (let hut of huts ) {
-        if (!hut.elevation) {
-            await axios.get(elevationUrl, {
-                params: {
-                    lat: hut.lat,
-                    lon: hut.lon
-                }
-            }).then((response) => {
-                if (response.data && response.data.status === "success") {
-                    hut.elevation = response.data.data.elevation.meters;
-                }
-            }).catch((error) => {
-                return res
-                    .status(500)
-                    .send({
-                        "status": "error",
-                        "error": `Error while retrieving elevation of a hut from Elevation adapter: ${error}`
-                    });
-            });
+    if (huts !== []) {
+        for (let hut of huts) {
+            if (!hut.elevation) {
+                await axios.get(elevationUrl, {
+                    params: {
+                        lat: hut.lat,
+                        lon: hut.lon
+                    }
+                }).then((response) => {
+                    if (response.data && response.data.status === "success") {
+                        hut.elevation = response.data.data.elevation.meters;
+                    }
+                }).catch((error) => {
+                    return res
+                        .status(500)
+                        .send({
+                            "status": "error",
+                            "error": `Error while retrieving elevation of a hut from Elevation adapter: ${error}`
+                        });
+                });
+            }
+            hut.elevation = parseFloat(hut.elevation);
+            completeHuts.push(hut);
         }
-        hut.elevation = parseFloat(hut.elevation);
-        completeHuts.push(hut);
     }
 
     // get current weather at destination
