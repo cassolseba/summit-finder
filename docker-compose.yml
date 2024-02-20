@@ -26,6 +26,7 @@ services:
       - DB_PASSWORD=$USER_DB_PASSWORD
       - DB_NAME=$USER_DB_NAME
       - DB_PORT=$USER_DB_PORT
+      - AUTHENTICATION_SERVICE_PORT=$AUTHENTICATION_SERVICE_PORT
     ports:
       - "80:8080"
     stdin_open: true
@@ -48,6 +49,7 @@ services:
     env_file: ./.env
     environment:
       - OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY
+      - FORECAST_SERVICE_PORT=$FORECAST_SERVICE_PORT
     ports:
       - "8083:8080"
     stdin_open: true
@@ -100,6 +102,7 @@ services:
       - DB_PASSWORD=$WISHLIST_DB_PASSWORD
       - DB_NAME=$WISHLIST_DB_NAME
       - DB_PORT=$WISHLIST_DB_PORT
+      - MANAGEMENT_SERVICE_PORT=$MANAGEMENT_SERVICE_PORT
     ports:
       - "8086:8080"
     stdin_open: true
@@ -112,6 +115,7 @@ services:
     env_file: ./.env
     environment:
       - JWT_SECRET=$JWT_SECRET
+      - FRONTEND_PORT=$FRONTEND_PORT
     ports:
       - "8087:8080"
     stdin_open: true
@@ -124,6 +128,7 @@ services:
     env_file: ./.env
     environment:
       - JWT_SECRET=$JWT_SECRET
+      - FRONTEND_PORT=$FRONTEND_PORT
     ports:
       - "8088:8080"
     stdin_open: true
@@ -151,8 +156,24 @@ services:
       - OVERPASS_ADAPTER_PORT=$OVERPASS_ADAPTER_PORT
       - ELEVATION_ADAPTER_PORT=$ELEVATION_ADAPTER_PORT
       - OPENWEATHER_ADAPTER_PORT=$OPENWEATHER_ADAPTER_PORT
+      - FRONTEND_PORT=$FRONTEND_PORT
     ports:
       - "8090:8080"
+    stdin_open: true
+    tty: true
+
+  frontend:
+    build:
+      context: frontend/summit-finder
+    restart: always
+    env_file: ./.env
+    environment:
+      - VUE_APP_TOUR_SERVICE_PORT=$TOUR_SERVICE_PORT
+      - VUE_APP_AUTHENTICATION_SERVICE_PORT=$AUTHENTICATION_SERVICE_PORT
+      - VUE_APP_MANAGEMENT_SERVICE_PORT=$MANAGEMENT_SERVICE_PORT
+      - VUE_APP_GOOGLE_ELEVATION_API_KEY=$GOOGLE_ELEVATION_API_KEY
+    ports:
+      - "8091:80"
     stdin_open: true
     tty: true
 
