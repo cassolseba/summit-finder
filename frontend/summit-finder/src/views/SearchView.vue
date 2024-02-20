@@ -250,7 +250,6 @@ export default {
         width="100%"
         height="570"
         name="peakfinder">
-        <p>Your Browser do not support iFrames.</p>
     </iframe>
   </v-card>
 
