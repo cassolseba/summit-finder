@@ -1,11 +1,63 @@
 <script>
+import axios from "axios";
+import authHeader from "../../services/data.service";
+
+const WISHLIST_URL = "http://management_service:8088/wishlist";
 export default {
-  name: "WishlistView"
+  name: "WishlistView",
+  data() {
+    return {
+    wishlist: []
+    }
+  },
+  methods: {
+    async findWishlist() {
+      await axios
+          .get(WISHLIST_URL, { headers: authHeader() })
+          .then((response) => {
+            console.log("Wishlist retrieved successfully");
+            this.wishlist = response.data.data.wish;
+          }).catch((error) => {
+            this.wishlist = null;
+            console.log(`Error while retrieving the wishlist: ${error}`);
+          });
+    },
+    async deleteWish(_id) {
+      window.alert("Will delete " + _id);
+    }
+  },
+  mounted() {
+    this.findWishlist();
+  }
 }
 </script>
 
 <template>
-  <h2>Wishlist</h2>
+
+  <v-card
+      v-for="wish in wishlist" :key="wish"
+      class="ma-auto pa-5"
+      elevation="8"
+      width="500"
+      rounded="lg"
+  >
+    <br>
+    From {{ wish.originName }} to {{ wish.destinationName }}
+    <br>
+    Saved peaks: {{ wish.peaks }}
+    <br>
+    Saved huts: {{ wish.huts }}
+    <br>
+    <v-btn
+        block
+        class="mb-8"
+        color="blue"
+        size="large"
+        variant="tonal"
+        @click="deleteWish(wish._id)"
+    >Delete</v-btn>
+  </v-card>
+
 </template>
 
 <style scoped>
