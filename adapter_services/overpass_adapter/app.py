@@ -1,11 +1,23 @@
+import os
+
 from flask import Flask
 from flask import request
+from flask_cors import CORS
 import requests
 
 app = Flask(__name__)
+tour_port = os.environ.get("TOUR_SERVICE_PORT")
+tour_host_port = os.environ.get("TOUR_SERVICE_HOST_PORT")
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            f"http://localhost:{tour_host_port}",
+            f"http://tour_service:{tour_port}"
+        ]
+    }
+})
 
-
-@app.route("/", methods=["GET"])
+@app.route("/overpass", methods=["GET"])
 def check():
     response = {
         "status": "success",
@@ -146,18 +158,19 @@ def peaks():
 
     peaks_list = []
     for data in result["elements"]:
-        peak = {
-            "lat": data["lat"],
-            "lon": data["lon"],
-            "name": data["tags"]["name"]
-        }
+        if "name" in data["tags"]:
+            peak = {
+                "lat": data["lat"],
+                "lon": data["lon"],
+                "name": data["tags"]["name"]
+            }
 
-        if "ele" not in data["tags"]:
-            peak["elevation"] = None
-        else:
-            peak["elevation"] = data["tags"]["ele"]
+            if "ele" not in data["tags"]:
+                peak["elevation"] = None
+            else:
+                peak["elevation"] = data["tags"]["ele"]
 
-        peaks_list.append(peak)
+            peaks_list.append(peak)
 
     if status == 200:
         response = {
@@ -311,17 +324,18 @@ def huts():
 
     huts_list = []
     for data in result["elements"]:
-        hut = {
-            "lat": data["lat"],
-            "lon": data["lon"],
-            "name": data["tags"]["name"],
-        }
-        if "ele" not in data["tags"]:
-            hut["elevation"] = None
-        else:
-            hut["elevation"] = data["tags"]["ele"]
+        if "name" in data["tags"]:
+            hut = {
+                "lat": data["lat"],
+                "lon": data["lon"],
+                "name": data["tags"]["name"],
+            }
+            if "ele" not in data["tags"]:
+                hut["elevation"] = None
+            else:
+                hut["elevation"] = data["tags"]["ele"]
 
-        huts_list.append(hut)
+            huts_list.append(hut)
 
     if status == 200:
         response = {

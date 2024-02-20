@@ -11,7 +11,10 @@ server.use(express.json());
 const cors = require("cors");
 
 const corsOptions = {
-    origin: "http://localhost:3000"
+    origin: [
+        `http://localhost:${process.env.TOUR_SERVICE_HOST_PORT}`,
+        `http://tour_service:${process.env.TOUR_SERVICE_PORT}`
+    ]
 };
 server.use(cors(corsOptions));
 

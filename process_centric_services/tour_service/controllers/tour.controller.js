@@ -153,7 +153,7 @@ const tour = async (req, res) => {
     }
 
     // get current weather at destination
-    let weatherUrl = `http://forecast_service:${forecastPort}/now`;
+    let weatherUrl = `http://forecast_service:${forecastPort}/forecast/now`;
 
     let weather;
 
@@ -176,7 +176,7 @@ const tour = async (req, res) => {
     });
 
     // get forecast at destination
-    let forecastUrl = `http://forecast_service:${forecastPort}/next`;
+    let forecastUrl = `http://forecast_service:${forecastPort}/forecast/next`;
 
     let forecast;
 

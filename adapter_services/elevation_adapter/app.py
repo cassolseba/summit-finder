@@ -2,10 +2,20 @@ import os
 
 from flask import Flask
 from flask import request
+from flask_cors import CORS
 import requests
 
 app = Flask(__name__)
-
+tour_port = os.environ.get("TOUR_SERVICE_PORT")
+tour_host_port= os.environ.get("TOUR_SERVICE_HOST_PORT")
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            f"http://localhost:{tour_host_port}",
+            f"http://tour_service:{tour_port}"
+        ]
+    }
+})
 
 @app.route("/", methods=["GET"])
 def check():

@@ -4,7 +4,7 @@ const openWeatherPort = process.env.OPENWEATHER_ADAPTER_PORT;
 const forecast = async (req, res) => {
     let lat = req.query.lat;
     let lon = req.query.lon;
-    let forecastUrl = `http://openweather_adapter:${openWeatherPort}/forecast`;
+    let forecastUrl = `http://openweather_adapter:${openWeatherPort}/openweather/forecast`;
 
     await axios.get(forecastUrl, {
         params: {
@@ -154,7 +154,7 @@ const forecast = async (req, res) => {
 const weather = async (req, res) => {
     let lat = req.query.lat;
     let lon = req.query.lon;
-    let forecastUrl = `http://openweather_adapter:${openWeatherPort}/weather`;
+    let forecastUrl = `http://openweather_adapter:${openWeatherPort}/openweather/weather`;
 
     await axios.get(forecastUrl, {
         params: {

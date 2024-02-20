@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const SIGNIN_URL = "http://authentication_service:8087/signin"; // todo env var
-const SIGNUP_URL = "http://authentication_service:8087/signup"; // todo env var
+const SIGNIN_URL = `http://authentication_service:${process.env.VUE_APP_AUTHENTICATION_PORT || 8087}/auth/signin`;
+const SIGNUP_URL = `http://authentication_service:${process.env.VUE_APP_AUTHENTICATION_PORT || 8087}/auth/signup`;
 
 class AuthService {
     login(user) {

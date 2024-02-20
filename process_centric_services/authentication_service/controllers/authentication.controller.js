@@ -29,7 +29,7 @@ const signin = async (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
 
-    let url = `http://user_service:${port}/${username}`;
+    let url = `http://user_service:${port}/user/${username}`;
 
     await axios.get(url)
         .then((response) => {
@@ -104,7 +104,7 @@ const signup = async (req, res) => {
     let password = req.body.password;
     let admin = false;
 
-    let url = `http://user_service:${port}/new`;
+    let url = `http://user_service:${port}/user/new`;
 
     await axios.post(url, {
         username: username,
@@ -121,7 +121,7 @@ const signup = async (req, res) => {
                     "status": "success",
                     "message": "Signed up successfully",
                     "data": {
-                        "user": response.data
+                        "user": response.data.data
                     }
                 });
         }
