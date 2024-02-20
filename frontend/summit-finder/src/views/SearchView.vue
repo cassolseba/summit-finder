@@ -8,16 +8,6 @@ const SAVE_URL = `http://management_service:${process.env.VUE_APP_MANAGEMENT_POR
 export default {
   name: "SearchView",
   methods: {
-    addPeak(peak) {
-      if (!this.selectedPeaks.includes(peak)) {
-        this.selectedPeaks.push(peak);
-      }
-    },
-    addHut(hut) {
-      if (!this.selectedHuts.includes(hut)) {
-        this.selectedHuts.push(hut);
-      }
-    },
     async search(research) {
       await axios
           .get(SEARCH_URL, {
