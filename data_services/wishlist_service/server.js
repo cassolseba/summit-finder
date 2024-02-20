@@ -24,7 +24,10 @@ db.connect(MONGODB_URI)
 const cors = require("cors");
 
 const corsOptions = {
-    origin: "http://localhost:3000"
+    origin: [
+        `http://localhost:${process.env.MANAGEMENT_SERVICE_HOST_PORT}`,
+        `http://management_service:${process.env.MANAGEMENT_SERVICE_PORT}`
+    ]
 };
 server.use(cors(corsOptions));
 

@@ -11,7 +11,11 @@ server.use(express.json());
 const cors = require("cors");
 
 const corsOptions = {
-    origin: "http://localhost:3000"
+    origin: [
+        `http://localhost:${process.env.FRONTEND_HOST_PORT}`,
+        `http://frontend:${process.env.FRONTEND_PORT}`,
+        `http://localhost:8080`
+    ]
 };
 server.use(cors(corsOptions));
 

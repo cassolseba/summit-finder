@@ -134,3 +134,22 @@ idea/
 .idea
 /data_services/user_service/package-lock.json
 venv
+
+.DS_Store
+node_modules
+/dist
+
+# local env files
+.env.*.local
+
+# Log files
+pnpm-debug.log*
+
+# Editor directories and files
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+

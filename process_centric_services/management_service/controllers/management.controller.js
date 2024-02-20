@@ -24,7 +24,7 @@ const addWish = async (req, res) => {
     let peaks = req.body.peaks;
 
     let port = process.env.WISHLIST_SERVICE_PORT;
-    let url = `http://wishlist_service:${port}/new`;
+    let url = `http://wishlist_service:${port}/wish/new`;
 
     await axios.post(url, {
         originLat: originLat,
@@ -44,7 +44,7 @@ const addWish = async (req, res) => {
                     "status": "success",
                     "message": "Wish added successfully",
                     "data": {
-                        "wish": response.data
+                        "wish": response.data.data.wish
                     }
                 });
         }
@@ -73,7 +73,7 @@ const findWishlist = async (req, res) => {
     let userId = String(req.userId);
 
     let port = process.env.WISHLIST_SERVICE_PORT;
-    let url = `http://wishlist_service:${port}/${userId}`;
+    let url = `http://wishlist_service:${port}/wishlist/${userId}`;
 
     await axios.get(url)
         .then((response) => {
@@ -84,7 +84,7 @@ const findWishlist = async (req, res) => {
                         "status": "success",
                         "message": "Wishlist successfully retrieved",
                         "data": {
-                            "wish": response.data
+                            "wishlist": response.data.data.wishlist
                         }
                     });
             }
@@ -111,7 +111,7 @@ const findAllWishlists = async (req, res) => {
     }
 
     let port = process.env.WISHLIST_SERVICE_PORT;
-    let url = `http://wishlist_service:${port}/`;
+    let url = `http://wishlist_service:${port}/wishlist`;
 
     await axios.get(url)
         .then((response) => {
@@ -122,8 +122,15 @@ const findAllWishlists = async (req, res) => {
                         "status": "success",
                         "message": "All wishlists successfully retrieved",
                         "data": {
-                            "wish": response.data
+                            "wishlists": response.data.data.wishlists
                         }
+                    });
+            } else {
+                return res
+                    .status(404)
+                    .send({
+                        "status": "error",
+                        "message": "No wishlist available"
                     });
             }
         }).catch((error) => {
@@ -162,14 +169,14 @@ const removeWish = async (req, res) => {
     const _id = String(req.params.id);
 
     let port = process.env.WISHLIST_SERVICE_PORT;
-    let url = `http://wishlist_service:${port}/${_id}`;
+    let url = `http://wishlist_service:${port}/wish/${_id}`;
 
     let storedId;
 
     await axios.get(url)
         .then((response) => {
             if (response && response.data.status === "success") {
-                storedId = response.data.data.userId;
+                storedId = response.data.data.wish.userId;
             }
         }).catch((error) => {
             return res
@@ -181,7 +188,7 @@ const removeWish = async (req, res) => {
         });
 
     if (userId === storedId || req.admin) {
-        let url = `http://wishlist_service:${port}/${_id}`;
+        let url = `http://wishlist_service:${port}/wish/${_id}`;
 
         await axios.delete(url)
             .then((response) => {
@@ -192,7 +199,7 @@ const removeWish = async (req, res) => {
                             "status": "success",
                             "message": "Wish deleted successfully",
                             "data": {
-                                "wish": response.data
+                                "wish": response.data.data.wish
                             }
                         });
                 }
@@ -242,7 +249,7 @@ const removeWishlist = async (req, res) => {
                         "status": "success",
                         "message": "Wishlist deleted successfully",
                         "data": {
-                            "wish": response.data
+                            "wish": response.data.data
                         }
                     });
             }
@@ -269,7 +276,7 @@ const removeAllWishlists = async (req, res) => {
     }
 
     let port = process.env.WISHLIST_SERVICE_PORT;
-    let url = `http://wishlist_service:${port}/`;
+    let url = `http://wishlist_service:${port}/wishlist`;
 
     await axios.delete(url)
         .then((response) => {
@@ -280,7 +287,7 @@ const removeAllWishlists = async (req, res) => {
                         "status": "success",
                         "message": "All wishlists deleted successfully",
                         "data": {
-                            "wish": response.data
+                            "wish": response.data.data
                         }
                     });
             }

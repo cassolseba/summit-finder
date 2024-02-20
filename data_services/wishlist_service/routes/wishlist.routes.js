@@ -4,15 +4,15 @@ const { wishValidation, newWish, wishlist, allWishlists, deleteAll, deleteWish, 
 
 // retrieve wishes
 router.get('/wishlist', allWishlists);
-router.get('/:id', wish);
+router.get('/wish/:id', wish);
 router.get('/wishlist/:userId', wishlist);
 
 // create a new wish
-router.post('/new', wishValidation, newWish);
+router.post('/wish/new', wishValidation, newWish);
 
 // delete wishes and wishlists
-router.delete('/:id', deleteWish);
+router.delete('/wish/:id', deleteWish);
 router.delete('/wishlist/:userId', deleteWishlist);
-router.delete('/', deleteAll);
+router.delete('/wishlist', deleteAll);
 
 module.exports = router;

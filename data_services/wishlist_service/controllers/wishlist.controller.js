@@ -78,7 +78,9 @@ const wish = (req, res) => {
                 .send({
                     "status": "success",
                     "message": "Wish retrieved successfully",
-                    "data": result
+                    "data": {
+                        "wish": result
+                    }
                 });
         }).catch((error) => {
             return res
@@ -123,7 +125,9 @@ const wishlist = (req, res) => {
                 .send({
                     "status": "success",
                     "message": "Wishlist retrieved successfully",
-                    "data": result
+                    "data": {
+                        "wishlist": result
+                    }
                 });
         }).catch((error) => {
             return res
@@ -153,7 +157,9 @@ const allWishlists = (req, res) => {
                 .send({
                     "status": "success",
                     "message": "All wishlists retrieved successfully",
-                    "data": result
+                    "data": {
+                        "wishlists": result
+                    }
                 });
 
         })

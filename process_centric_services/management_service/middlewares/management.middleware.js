@@ -2,10 +2,8 @@ const jwt = require("jsonwebtoken");
 
 const verifyToken = async (req, res, next) => {
     let bearerToken = req.headers['authorization'];
-    console.log(`Received token: ${bearerToken}`);
 
     const secret = process.env.JWT_SECRET;
-    console.log(`Loaded secret: ${secret}`);
 
     if (!bearerToken) {
         return res
