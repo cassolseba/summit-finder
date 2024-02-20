@@ -32,7 +32,7 @@ export default {
           .then(() => {
               console.log("Wish deleted successfully");
               window.alert("Wish deleted successfully");
-              this.$router.go({ path:'/wishlist'});
+              this.$router.push({ name: 'Search'});
           }).catch((error) => {
             console.log(`Error while deleting the wish: ${error}`);
           })
@@ -54,7 +54,7 @@ export default {
           .then(() => {
             console.log("All wishlists deleted successfully");
             window.alert("All wishlists deleted successfully");
-            this.$router.go({ path:'/wishlist'});
+            this.$router.push({ name: 'Search'});
           }).catch((error) => {
             console.log(`Error while deleting all wishlists: ${error}`);
           })
@@ -65,7 +65,7 @@ export default {
           .then(() => {
             console.log("Wishlists deleted successfully");
             window.alert("Wishlists deleted successfully");
-            this.$router.go({ path:'/wishlist'});
+            this.$router.push({ name: 'Search'});
           }).catch((error) => {
             console.log(`Error while deleting the wishlists: ${error}`);
           })
