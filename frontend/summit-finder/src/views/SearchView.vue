@@ -30,16 +30,26 @@ export default {
             console.log("Search successful");
             window.alert("Search successful");
             this.tour = response.data.data;
-            if (response.data.data.peaks[0]) {
-              this.peakFinder = `https://www.peakfinder.com/embed/?lat${response.data.data.peaks[0].lat}&lng=${response.data.data.peaks[0].lon}`
+            if (this.tour.peaks[0]) {
+              console.log("COORDINATESSSSSSS: " + this.tour.peaks[0].lat + " " + this.tour.peaks[0].lon)
+              this.peakFinder = `https://www.peakfinder.com/embed/?lat=${this.tour.peaks[0].lat}&lng=${this.tour.peaks[0].lon}`
             }
-            if(response.data.data.origin && response.data.data.destination) {
+            if(this.tour.origin && this.tour.destination) {
               this.googleMaps = `https://www.google.com/maps/embed/v1/directions?key=${this.key}&origin=${response.data.data.origin.lat},${response.data.data.origin.lon}&destination=${response.data.data.destination.lat},${response.data.data.destination.lon}`;
             }
+            for (let peak of this.tour.peaks ) {
+              this.peaksNames.push(peak.name);
+              console.log(peak.name);
+            }
+            for (let hut of this.tour.huts ) {
+              this.hutsNames.push(hut.name);
+            }
+            this.loading = false;
           }).catch((error) => {
             console.log(`Error in search ${error}`);
             window.alert("Search error");
           })
+
     },
     async save(tour) {
       await axios
@@ -70,10 +80,15 @@ export default {
       },
       tour: null,
       selectedPeaks: [],
+      peaksNames: [],
       selectedHuts: [],
+      hutsNames: [],
       peakFinder: null,
       googleMaps: null,
-      key: process.env.VUE_APP_GOOGLE_MAPS_KEY
+      key: process.env.VUE_APP_GOOGLE_MAPS_KEY,
+      loggedIn: localStorage.getItem('user'),
+      username: localStorage.getItem('username'),
+      loading: true,
     }
   },
 }
@@ -104,7 +119,7 @@ export default {
     <v-text-field
         v-model="research.range"
         density="compact"
-        placeholder="Range (0 - 20km)"
+        placeholder="Range (0 - 20.000m)"
         variant="outlined"
     ></v-text-field>
 
@@ -138,11 +153,6 @@ export default {
         :key="peak"
     >
       Peak: {{ peak.name }}
-      <v-icon
-          icon="mdi-plus-circle-outline"
-          class="cursor-pointer"
-          @click="addPeak(peak.name)"
-      ></v-icon>
       <br>
       Elevation: {{ peak.elevation }} m
       <br>
@@ -157,11 +167,6 @@ export default {
       :key="hut"
     >
       Hut: {{ hut.name }}
-      <v-icon
-          icon="mdi-plus-circle-outline"
-          class="cursor-pointer"
-          @click="addHut(hut.name)"
-      ></v-icon>
       <br>
       Elevation: {{ hut.elevation }} m
       <br>
@@ -226,17 +231,42 @@ export default {
     <br>
     Wind: max {{ tour.tomorrow.maxWind }} km/h, min {{ tour.tomorrow.minWind }} km/h, average {{ tour.tomorrow.avgWind}} km/h
     <br>
+    <br>
     <v-divider/>
-    You are saving the following peaks: {{ selectedPeaks }} and the following alpine huts: {{ selectedHuts }}
+    <br>
+    <div v-if="loggedIn">
+    <b>Save peaks and huts in your wishlist</b>
+    <v-autocomplete
+        class="my-2"
+        chips
+        closable-chips
+        multiple
+        label="Peaks"
+        :items="peaksNames"
+        v-model="selectedPeaks"
+        :disabled="loading || peaksNames.length === 0"
+    ></v-autocomplete>
+
+    <v-autocomplete
+        class="my-2"
+        chips
+        closable-chips
+        multiple
+        label="Huts"
+        :items="hutsNames"
+        v-model="selectedHuts"
+        :disabled="loading || hutsNames.length === 0"
+    ></v-autocomplete>
+
     <v-btn
         block
-        class="mb-8"
+        class="my-2"
         color="blue"
         size="large"
         variant="tonal"
         @click="save(tour)"
     >Save</v-btn>
-
+    </div>
   </v-card>
 
   <v-card
