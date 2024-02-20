@@ -9,7 +9,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=$USER_DB_USER
       - MONGO_INITDB_ROOT_PASSWORD=$USER_DB_PASSWORD
     ports:
-      - "27018:27017"
+      - ${USER_DB_HOST_PORT}:${USER_DB_PORT}
     volumes:
       - user_db:/data/db
 
@@ -29,7 +29,7 @@ services:
       - AUTHENTICATION_SERVICE_PORT=$AUTHENTICATION_SERVICE_PORT
       - AUTHENTICATION_SERVICE_HOST_PORT=$AUTHENTICATION_SERVICE_HOST_PORT
     ports:
-      - "80:8080"
+      - ${USER_SERVICE_HOST_PORT}:${USER_SERVICE_PORT}
     stdin_open: true
     tty: true
 
@@ -42,7 +42,7 @@ services:
       - TOUR_SERVICE_PORT=$TOUR_SERVICE_PORT
       - TOUR_SERVICE_HOST_PORT=$TOUR_SERVICE_HOST_PORT
     ports:
-      - "8082:5000"
+      - ${NOMINATIM_ADAPTER_HOST_PORT}:${NOMINATIM_ADAPTER_PORT}
     stdin_open: true
     tty: true
 
@@ -56,7 +56,7 @@ services:
       - FORECAST_SERVICE_PORT=$FORECAST_SERVICE_PORT # cors
       - FORECAST_SERVICE_HOST_PORT=$FORECAST_SERVICE_HOST_PORT # cors
     ports:
-      - "8083:8080"
+      - ${OPENWEATHER_ADAPTER_HOST_PORT}:${OPENWEATHER_ADAPTER_PORT}
     stdin_open: true
     tty: true
 
@@ -68,7 +68,7 @@ services:
     environment:
       - TOUR_SERVICE_PORT=$TOUR_SERVICE_PORT
     ports:
-      - "8084:5000"
+      - ${OVERPASS_ADAPTER_HOST_PORT}:${OVERPASS_ADAPTER_PORT}
     stdin_open: true
     tty: true
 
@@ -82,7 +82,7 @@ services:
       - TOUR_SERVICE_PORT=$TOUR_SERVICE_PORT # cors
       - TOUR_SERVICE_HOST_PORT=$TOUR_SERVICE_HOST_PORT # cors
     ports:
-      - "8085:5000"
+      - ${ELEVATION_ADAPTER_HOST_PORT}:${ELEVATION_ADAPTER_PORT}
     stdin_open: true
     tty: true
 
@@ -94,7 +94,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=$WISHLIST_DB_USER
       - MONGO_INITDB_ROOT_PASSWORD=$WISHLIST_DB_PASSWORD
     ports:
-      - "27019:27017"
+      - ${WISHLIST_DB_HOST_PORT}:${WISHLIST_DB_PORT}
     volumes:
       - wishlist:/data/db
 
@@ -114,7 +114,7 @@ services:
       - MANAGEMENT_SERVICE_PORT=$MANAGEMENT_SERVICE_PORT # cors
       - MANAGEMENT_SERVICE_HOST_PORT=$MANAGEMENT_SERVICE_HOST_PORT # cors
     ports:
-      - "8086:8080"
+      - ${WISHLIST_SERVICE_HOST_PORT}:${WISHLIST_SERVICE_PORT}
     stdin_open: true
     tty: true
 
@@ -128,7 +128,7 @@ services:
       - FRONTEND_PORT=$FRONTEND_PORT # cors
       - FRONTEND_HOST_PORT=$FRONTEND_HOST_PORT # cors
     ports:
-      - "8087:8080"
+      - ${AUTHENTICATION_SERVICE_HOST_PORT}:${AUTHENTICATION_SERVICE_PORT}
     stdin_open: true
     tty: true
 
@@ -142,7 +142,7 @@ services:
       - FRONTEND_PORT=$FRONTEND_PORT # cors
       - FRONTEND_HOST_PORT=$FRONTEND_HOST_PORT # cors
     ports:
-      - "8088:8080"
+      - ${MANAGEMENT_SERVICE_HOST_PORT}:${MANAGEMENT_SERVICE_PORT}
     stdin_open: true
     tty: true
 
@@ -156,7 +156,7 @@ services:
       - FRONTEND_PORT=$FRONTEND_PORT # cors
       - FRONTEND_HOST_PORT=$FRONTEND_HOST_PORT # cors
     ports:
-      - "8089:8080"
+      - ${FORECAST_SERVICE_HOST_PORT}:${FORECAST_SERVICE_PORT}
     stdin_open: true
     tty: true
 
@@ -173,7 +173,7 @@ services:
       - FRONTEND_PORT=$FRONTEND_PORT # cors
       - FRONTEND_HOST_PORT=$FRONTEND_HOST_PORT # cors
     ports:
-      - "8090:8080"
+      - ${TOUR_SERVICE_HOST_PORT}:${TOUR_SERVICE_PORT}
     stdin_open: true
     tty: true
 
@@ -188,7 +188,7 @@ services:
     restart: always
     env_file: ./.env
     ports:
-      - "8091:80"
+      - ${FRONTEND_HOST_PORT}:${FRONTEND_PORT}
     stdin_open: true
     tty: true
 
