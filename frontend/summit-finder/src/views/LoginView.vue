@@ -26,7 +26,7 @@ export default {
 
       this.$store.dispatch("auth/login", this.signin)
           .then(() => {
-            this.$router.push( {path: '/' } );
+            this.$router.push( { path: '/' } );
           }).catch(() => {
             this.loading = false;
           })
@@ -36,7 +36,7 @@ export default {
 
       this.$store.dispatch("auth/register", this.signup)
           .then(() => {
-            this.$router.push( {path: '/' } );
+            this.$router.push( { path: '/' } );
           }).catch(() => {
             this.loading = false;
           })
@@ -44,7 +44,7 @@ export default {
     logout() {
       this.$store.dispatch('auth/logout');
       this.loggedIn = false
-      this.$router.go( { path: '/'} );
+      this.$router.push( { path: '/'} );
     },
     toggleRegistration() {
       this.registration = !this.registration;
