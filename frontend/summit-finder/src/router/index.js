@@ -37,13 +37,6 @@ const routes = [
             title: "Login"
         }
     }
-    // {
-    //     path: "*",
-    //     name: "NotFound",
-    //     meta: {
-    //         title: "Page not found"
-    //     }
-    // }
 ];
 
 const router = createRouter({
