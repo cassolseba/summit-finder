@@ -117,7 +117,7 @@ const findAllWishlists = async (req, res) => {
         .then((response) => {
             if (response && response.data.status === "success") {
                 return res
-                    .status(201)
+                    .status(200)
                     .send({
                         "status": "success",
                         "message": "All wishlists successfully retrieved",
@@ -194,7 +194,7 @@ const removeWish = async (req, res) => {
             .then((response) => {
                 if (response && response.data.status === "success") {
                     return res
-                        .status(201)
+                        .status(202)
                         .send({
                             "status": "success",
                             "message": "Wish deleted successfully",
@@ -244,7 +244,7 @@ const removeWishlist = async (req, res) => {
         .then((response) => {
             if (response && response.data.status === "success") {
                 return res
-                    .status(201)
+                    .status(202)
                     .send({
                         "status": "success",
                         "message": "Wishlist deleted successfully",
@@ -282,7 +282,7 @@ const removeAllWishlists = async (req, res) => {
         .then((response) => {
             if (response && response.data.status === "success") {
                 return res
-                    .status(201)
+                    .status(202)
                     .send({
                         "status": "success",
                         "message": "All wishlists deleted successfully",
