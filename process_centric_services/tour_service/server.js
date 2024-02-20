@@ -14,6 +14,7 @@ const corsOptions = {
     origin: [
         `http://localhost:${process.env.FRONTEND_HOST_PORT}`,
         `http://frontend:${process.env.FRONTEND_PORT}`,
+        `http://localhost:8080`
     ]
 };
 server.use(cors(corsOptions));
