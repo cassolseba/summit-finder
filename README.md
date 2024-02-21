@@ -43,4 +43,5 @@ Testing operation could be done using the postman collection contained in this r
 ## Acknowledgment
 - [How to use jwt tokens to authorize users](https://medium.com/@maison.moa/using-jwt-json-web-tokens-to-authorize-users-and-protect-api-routes-3e04a1453c3e)
 - [Custom role-based authentication in Node.js](https://medium.com/gen-y/custom-role-based-auth-mechanism-for-nodejs-d40e5efdd140)
+- [Project structure](https://github.com/bezkoder/docker-compose-nodejs-mongodb)
 - [Password hashing](https://www.makeuseof.com/nodejs-bcrypt-hash-verify-salt-password/)
