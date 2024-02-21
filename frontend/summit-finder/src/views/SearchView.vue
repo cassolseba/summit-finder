@@ -263,7 +263,7 @@ export default {
       v-if="peakFinder"
       class="my-5 mx-auto pa-5"
       elevation="8"
-      width="500"
+      width="750"
       rounded="lg"
   >
     <iframe
@@ -278,13 +278,13 @@ export default {
       v-if="googleMaps"
       class="my-5 mx-auto pa-5"
       elevation="8"
-      width="500"
+      width="750"
       rounded="lg"
   >
     <iframe
         :src="googleMaps"
         width="100%"
-        height="450"
+        height="570"
         name="googlemaps"
         allowfullscreen>
     </iframe>
