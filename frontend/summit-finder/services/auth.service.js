@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const SIGNIN_URL = `http://localhost:${process.env.VUE_APP_AUTHENTICATION_PORT || 8087}/auth/signin`;
-const SIGNUP_URL = `http://localhost:${process.env.VUE_APP_AUTHENTICATION_PORT || 8087}/auth/signup`;
+const SIGNIN_URL = `http://localhost:${process.env.VUE_APP_AUTHENTICATION_PORT}/auth/signin`;
+const SIGNUP_URL = `http://localhost:${process.env.VUE_APP_AUTHENTICATION_PORT}/auth/signup`;
 
 class AuthService {
     login(user) {

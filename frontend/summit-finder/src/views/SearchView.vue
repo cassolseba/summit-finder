@@ -1,9 +1,8 @@
 <script>
 import axios from "axios";
 import authHeader from "../../services/data.service";
-const SEARCH_URL = `http://localhost:${process.env.VUE_APP_TOUR_PORT || 8090}/tour`;
-console.log(SEARCH_URL);
-const SAVE_URL = `http://localhost:${process.env.VUE_APP_MANAGEMENT_PORT || 8088}/wish`;
+const SEARCH_URL = `http://localhost:${process.env.VUE_APP_TOUR_PORT}/tour`;
+const SAVE_URL = `http://localhost:${process.env.VUE_APP_MANAGEMENT_PORT}/wish`;
 
 export default {
   name: "SearchView",
@@ -21,7 +20,6 @@ export default {
             window.alert("Search successful");
             this.tour = response.data.data;
             if (this.tour.peaks[0]) {
-              console.log("COORDINATESSSSSSS: " + this.tour.peaks[0].lat + " " + this.tour.peaks[0].lon)
               this.peakFinder = `https://www.peakfinder.com/embed/?lat=${this.tour.peaks[0].lat}&lng=${this.tour.peaks[0].lon}`
             }
             if(this.tour.origin && this.tour.destination) {
