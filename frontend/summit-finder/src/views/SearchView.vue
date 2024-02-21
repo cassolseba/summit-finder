@@ -1,9 +1,9 @@
 <script>
 import axios from "axios";
 import authHeader from "../../services/data.service";
-const SEARCH_URL = `http://tour_service:${process.env.VUE_APP_TOUR_PORT || 8090}/tour`;
+const SEARCH_URL = `http://localhost:${process.env.VUE_APP_TOUR_PORT || 8090}/tour`;
 console.log(SEARCH_URL);
-const SAVE_URL = `http://management_service:${process.env.VUE_APP_MANAGEMENT_PORT || 8088}/wish`;
+const SAVE_URL = `http://localhost:${process.env.VUE_APP_MANAGEMENT_PORT || 8088}/wish`;
 
 export default {
   name: "SearchView",

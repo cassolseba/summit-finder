@@ -2,8 +2,8 @@
 import axios from "axios";
 import authHeader from "../../services/data.service";
 
-const WISHLIST_URL = `http://management_service:${process.env.VUE_APP_MANAGEMENT_PORT || 8088}/wishlist`;
-const WISH_URL = `http://management_service:${process.env.VUE_APP_MANAGEMENT_PORT || 8088}/wish`;
+const WISHLIST_URL = `http://localhost:${process.env.VUE_APP_MANAGEMENT_PORT || 8088}/wishlist`;
+const WISH_URL = `http://localhost:${process.env.VUE_APP_MANAGEMENT_PORT || 8088}/wish`;
 export default {
   name: "WishlistView",
   data() {
